@@ -20,6 +20,10 @@ namespace ClubeLeitura.ConsoleApp
             TelaCadastroCaixa telaCadastroCaixa = new TelaCadastroCaixa();
             telaCadastroCaixa.caixas = new Caixa[10];
             telaCadastroCaixa.notificador = new Notificador();
+            TelaCadastroAmigo telaCadastroAmigo = new TelaCadastroAmigo();
+            telaCadastroAmigo.amigos = new Amigo[10];
+            telaCadastroAmigo.notificador = new Notificador();
+
 
             while (true)
             {                
@@ -45,6 +49,28 @@ namespace ClubeLeitura.ConsoleApp
                     {
                         telaCadastroCaixa.VisualizarCaixas("Tela");
                         Console.ReadLine(); 
+                    }
+                }
+                else if (opcaoMenuPrincipal == "3")
+                {
+                    string opcao = telaCadastroAmigo.MostrarOpcoes();
+
+                    if (opcao == "1")
+                    {
+                        telaCadastroAmigo.InserirNovoAmigo();
+                    }
+                    else if (opcao == "2")
+                    {
+                        telaCadastroAmigo.EditarAmigo();
+                    }
+                    else if (opcao == "3")
+                    {
+                        telaCadastroAmigo.ExcluirAmigo();
+                    }
+                    else if (opcao == "4")
+                    {
+                        telaCadastroAmigo.VisualizarAmigos("Tela");
+                        Console.ReadLine();
                     }
                 }
             }

@@ -13,9 +13,7 @@ namespace ClubeLeitura.ConsoleApp
         {
             Console.Clear();
 
-            Console.WriteLine("Cadastro de Caixas");
-
-            Console.WriteLine();
+            MostrarTitulo("Cadastro de Caixas");
 
             Console.WriteLine("Digite 1 para Inserir");
             Console.WriteLine("Digite 2 para Editar");
@@ -73,9 +71,9 @@ namespace ClubeLeitura.ConsoleApp
                 if (caixas[i].numero == numeroCaixa)
                 {
                     Caixa caixa = ObterCaixa();
-
-                    caixas[i].numero = numeroCaixa;
+                                        
                     caixas[i] = caixa;
+                    caixas[i].numero = numeroCaixa;
 
                     break;
                 }
@@ -88,7 +86,11 @@ namespace ClubeLeitura.ConsoleApp
         {
             Console.Clear();
 
+            Console.ForegroundColor = ConsoleColor.Magenta;
+
             Console.WriteLine(titulo);
+
+            Console.ResetColor();
 
             Console.WriteLine();
         }
