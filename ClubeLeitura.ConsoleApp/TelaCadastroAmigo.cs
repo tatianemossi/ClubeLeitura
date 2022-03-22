@@ -76,10 +76,10 @@ namespace ClubeLeitura.ConsoleApp
                 if (amigos[i].idAmigo == idAmigo)
                 {
                     Amigo amigo = ObterAmigo();
-                                       
-                    amigos[i] = amigo;
-                    amigos[i].idAmigo = iDAmigo;
 
+                    amigo.idAmigo = iDAmigo;
+                    amigos[i] = amigo;
+                    
                     break;
                 }
             }

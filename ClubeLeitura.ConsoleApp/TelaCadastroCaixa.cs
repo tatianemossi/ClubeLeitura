@@ -41,7 +41,7 @@ namespace ClubeLeitura.ConsoleApp
             notificador.ApresentarMensagem("Caixa inserida com sucesso!", "Sucesso");
         }
 
-        private Caixa ObterCaixa()
+        public Caixa ObterCaixa()
         {
             Console.Write("Digite a cor: ");
             string cor = Console.ReadLine();
@@ -71,10 +71,10 @@ namespace ClubeLeitura.ConsoleApp
                 if (caixas[i].numero == numeroCaixa)
                 {
                     Caixa caixa = ObterCaixa();
-                                        
-                    caixas[i] = caixa;
-                    caixas[i].numero = numeroCaixa;
 
+                    caixa.numero = numeroCaixa;
+                    caixas[i] = caixa;
+                    
                     break;
                 }
             }
@@ -145,8 +145,6 @@ namespace ClubeLeitura.ConsoleApp
             }
 
             return -1;
-        }
-
-        
+        }        
     }
 }
