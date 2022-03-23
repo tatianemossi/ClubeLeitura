@@ -1,22 +1,33 @@
-﻿using System;
+﻿using ClubeLeitura.ConsoleApp.ModuloAmigo;
+using System;
 
 namespace ClubeLeitura.ConsoleApp
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
             TelaMenuPrincipal menuPrincipal = new TelaMenuPrincipal();
             TelaCadastroCaixa telaCadastroCaixa = new TelaCadastroCaixa();
-            telaCadastroCaixa.caixas = new Caixa[10];
-            telaCadastroCaixa.notificador = new Notificador();
             TelaCadastroAmigo telaCadastroAmigo = new TelaCadastroAmigo();
-            telaCadastroAmigo.amigos = new Amigo[10];
-            telaCadastroAmigo.notificador = new Notificador();
+           
+            RepositorioCaixa repositorioCaixa = new RepositorioCaixa();
+            repositorioCaixa.caixas = new Caixa[10];
+
+            RepositorioAmigo repositorioAmigo = new RepositorioAmigo();
+            repositorioAmigo.amigos = new Amigo[10];
+            
+
+            telaCadastroCaixa.repositorioCaixa = repositorioCaixa;
+            telaCadastroAmigo.repositorioAmigo= repositorioAmigo;
+
+            Notificador notificador = new Notificador();
+            telaCadastroCaixa.notificador = notificador;
+            telaCadastroAmigo.notificador = notificador;
 
 
             while (true)
-            {                
+            {
                 string opcaoMenuPrincipal = menuPrincipal.MostrarOpcoes();
 
                 if (opcaoMenuPrincipal == "1")
@@ -37,11 +48,16 @@ namespace ClubeLeitura.ConsoleApp
                     }
                     else if (opcao == "4")
                     {
-                        telaCadastroCaixa.VisualizarCaixas("Tela");
-                        Console.ReadLine(); 
+                        bool temCaixaCadastrada = telaCadastroCaixa.VisualizarCaixas("Tela");
+                        if (temCaixaCadastrada == false)
+                        {
+                            notificador.ApresentarMensagem("Nenhuma caixa cadastrada", "Atencao");
+                        }
+                        Console.ReadLine();
                     }
                 }
-                else if (opcaoMenuPrincipal == "3")
+
+                if (opcaoMenuPrincipal == "3")
                 {
                     string opcao = telaCadastroAmigo.MostrarOpcoes();
 
@@ -59,7 +75,11 @@ namespace ClubeLeitura.ConsoleApp
                     }
                     else if (opcao == "4")
                     {
-                        telaCadastroAmigo.VisualizarAmigos("Tela");
+                        bool temAmigoCadastrado = telaCadastroAmigo.VisualizarAmigos("Tela");
+                        if (temAmigoCadastrado == false)
+                        {
+                            notificador.ApresentarMensagem("Nenhum amigo cadastrado", "Atencao");
+                        }
                         Console.ReadLine();
                     }
                 }

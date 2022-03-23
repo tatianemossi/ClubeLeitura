@@ -1,12 +1,14 @@
-﻿using System;
+﻿using ClubeLeitura.ConsoleApp.ModuloAmigo;
+using System;
 
 namespace ClubeLeitura.ConsoleApp
 {
-    internal class TelaCadastroAmigo
+    public class TelaCadastroAmigo
     {
         public Amigo[] amigos;
         public int iDAmigo;
         public Notificador notificador;
+        public RepositorioAmigo repositorioAmigo;
 
         public string MostrarOpcoes()
         {
@@ -28,14 +30,11 @@ namespace ClubeLeitura.ConsoleApp
         {
             MostrarTitulo("Inserindo novo Amigo");
 
-            Amigo amigo = ObterAmigo();
+            Amigo novoAmigo = ObterAmigo();
 
-            amigo.idAmigo = ++iDAmigo;
+            repositorioAmigo.Inserir(novoAmigo);
 
-            int posicaoVazia = ObterPosicaoVazia();
-            amigos[posicaoVazia] = amigo;
-
-            notificador.ApresentarMensagem("Amigo inserido com sucesso!", "Sucesso");
+            notificador.ApresentarMensagem("Amigo inserido com Sucesso", "Sucesso");
         }
 
         public Amigo ObterAmigo()
@@ -66,25 +65,43 @@ namespace ClubeLeitura.ConsoleApp
         {
             MostrarTitulo("Editando Amigo");
 
-            VisualizarAmigos("Pesquisando");
+            bool temAmigosCadastrados = VisualizarAmigos("Pesquisando");
 
-            Console.Write("Digite o Id do amigo que deseja editar: ");
-            int idAmigo = Convert.ToInt32(Console.ReadLine());
-
-            for (int i = 0; i < amigos.Length; i++)
+            if (temAmigosCadastrados == false)
             {
-                if (amigos[i].idAmigo == idAmigo)
-                {
-                    Amigo amigo = ObterAmigo();
-
-                    amigo.idAmigo = iDAmigo;
-                    amigos[i] = amigo;
-                    
-                    break;
-                }
+                notificador.ApresentarMensagem("Nenhum amigo cadastrado para editar", "Atencao");
+                return;
             }
 
+            int idAmigo = ObterIdAmigo();
+
+            Amigo amigoAtualizado = ObterAmigo();
+
+            repositorioAmigo.Editar(idAmigo, amigoAtualizado);
+
             notificador.ApresentarMensagem("Amigo editado com sucesso", "Sucesso");
+        }
+
+        public int ObterIdAmigo()
+        {
+            int idAmigo;
+            bool idAmigoEncontrado;
+
+            do
+            {
+                Console.Write("Digite o Id do amigo que deseja editar: ");
+                idAmigo = Convert.ToInt32(Console.ReadLine());
+
+                idAmigoEncontrado = repositorioAmigo.VerificarIdAmigoExiste(idAmigo);
+
+                if (idAmigoEncontrado == false)
+                    notificador.ApresentarMensagem("Id do Amigo não encontrado, digite novamente", "Atencao");
+
+
+
+            } while (idAmigoEncontrado == false);
+
+            return idAmigo;
         }
 
         public void MostrarTitulo(string titulo)
@@ -104,27 +121,30 @@ namespace ClubeLeitura.ConsoleApp
         {
             MostrarTitulo("Excluindo Amigo");
 
-            VisualizarAmigos("Pesquisando");
+            bool temAmigosCadastrados = VisualizarAmigos("Pesquisando");
 
-            Console.Write("Digite o Id do amigo que deseja excluir: ");
-            int idAmigo = Convert.ToInt32(Console.ReadLine());
-
-            for (int i = 0; i < amigos.Length; i++)
+            if (temAmigosCadastrados == false)
             {
-                if (amigos[i].idAmigo == iDAmigo)
-                {
-                    amigos[i] = null;
-                    break;
-                }
+                notificador.ApresentarMensagem("Nenhum amigo cadastrado para poder excluir", "Atencao");
+                return;
             }
+
+            int idAmigo = ObterIdAmigo();
+
+            repositorioAmigo.Excluir(idAmigo);
 
             notificador.ApresentarMensagem("Amigo excluído com sucesso", "Sucesso");
         }
 
-        public void VisualizarAmigos(string tipo)
+        public bool VisualizarAmigos(string tipo)
         {
             if (tipo == "Tela")
                 MostrarTitulo("Visualização de Amigos");
+
+            Amigo[] amigos = repositorioAmigo.SelecionarTodos();
+
+            if (amigos.Length == 0)
+                return false;
 
             for (int i = 0; i < amigos.Length; i++)
             {
@@ -141,17 +161,8 @@ namespace ClubeLeitura.ConsoleApp
 
                 Console.WriteLine();
             }
-        }
 
-        public int ObterPosicaoVazia()
-        {
-            for (int i = 0; i < amigos.Length; i++)
-            {
-                if (amigos[i] == null)
-                    return i;
-            }
-
-            return -1;
+            return true;
         }
     }
 }

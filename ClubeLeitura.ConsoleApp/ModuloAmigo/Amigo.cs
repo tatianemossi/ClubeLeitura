@@ -1,6 +1,6 @@
 ﻿namespace ClubeLeitura.ConsoleApp
 {
-    internal class Amigo
+    public class Amigo
     {
         public string nome;
         public string nomeResponsavel;
