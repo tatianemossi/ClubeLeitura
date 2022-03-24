@@ -4,8 +4,6 @@
     {
         public int numero;
         public string cor;
-        public string etiqueta;
-
-        
+        public string etiqueta;        
     }
 }

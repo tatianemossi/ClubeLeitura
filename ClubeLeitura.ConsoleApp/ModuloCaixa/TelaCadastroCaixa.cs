@@ -10,11 +10,7 @@ namespace ClubeLeitura.ConsoleApp
         public RepositorioCaixa repositorioCaixa;
         public string MostrarOpcoes()
         {
-            Console.Clear();
-
-            Console.WriteLine("Cadastro de Caixas");
-
-            Console.WriteLine();
+            MostrarTitulo("Cadastro de Caixas");
 
             Console.WriteLine("Digite 1 para Inserir");
             Console.WriteLine("Digite 2 para Editar");

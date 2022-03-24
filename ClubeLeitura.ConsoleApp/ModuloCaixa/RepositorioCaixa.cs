@@ -13,13 +13,13 @@
             caixas[posicaoVazia] = caixa;
         }
 
-        public void Editar(int numeroSelecioando, Caixa caixa)
+        public void Editar(int numeroSelecionado, Caixa caixa)
         {
             for (int i = 0; i < caixas.Length; i++)
             {
-                if (caixas[i].numero == numeroSelecioando)
+                if (caixas[i].numero == numeroSelecionado)
                 {
-                    caixa.numero = numeroSelecioando;
+                    caixa.numero = numeroSelecionado;
                     caixas[i] = caixa;
 
                     break;
@@ -94,6 +94,17 @@
             }
 
             return caixasInseridas;
+        }
+
+        public Caixa SelecionarCaixa(int numeroCaixa)
+        {
+            for (int i = 0; i < caixas.Length; i++)
+            {
+                if (caixas[i] != null && numeroCaixa == caixas[i].numero)
+                    return caixas[i];
+            }
+
+            return null;
         }
 
         public int ObterQtdCaixas()
