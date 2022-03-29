@@ -2,7 +2,7 @@
 {
     public class Caixa
     {
-        private int _numero;
+        private static int _numero;
         public int Numero
         {
             get { return _numero; }

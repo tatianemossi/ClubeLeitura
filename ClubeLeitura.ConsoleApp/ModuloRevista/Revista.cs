@@ -5,7 +5,7 @@ namespace ClubeLeitura.ConsoleApp
 {
     public class Revista
     {
-        private int _numero;
+        private static int _numero;
         public int Numero
         {
             get { return _numero; }

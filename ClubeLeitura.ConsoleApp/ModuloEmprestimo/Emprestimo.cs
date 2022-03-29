@@ -4,7 +4,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
 {
     public class Emprestimo
     {
-        private int _numero;
+        private static int _numero;
         public int Numero
         {
             get { return _numero; }
