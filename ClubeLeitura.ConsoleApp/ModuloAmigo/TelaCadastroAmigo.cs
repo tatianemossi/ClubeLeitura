@@ -5,13 +5,11 @@ namespace ClubeLeitura.ConsoleApp
 {
     public class TelaCadastroAmigo
     {
-        public Amigo[] amigos;
-        public int iDAmigo;
         public Notificador notificador;
         public RepositorioAmigo repositorioAmigo;
 
         public string MostrarOpcoes()
-        {
+        {            
             MostrarTitulo("Cadastro de Amigos");
 
             Console.WriteLine("Digite 1 para Inserir");
@@ -28,37 +26,13 @@ namespace ClubeLeitura.ConsoleApp
 
         public void InserirNovoAmigo()
         {
-            MostrarTitulo("Inserindo novo Amigo");
+            MostrarTitulo("Inserindo novo amigo");
 
             Amigo novoAmigo = ObterAmigo();
 
             repositorioAmigo.Inserir(novoAmigo);
 
-            notificador.ApresentarMensagem("Amigo inserido com Sucesso", "Sucesso");
-        }
-
-        public Amigo ObterAmigo()
-        {
-            Console.Write("Digite o nome: ");
-            string nome = Console.ReadLine();
-
-            Console.Write("Digite o nome do responsável: ");
-            string nomeResponsavel = Console.ReadLine();
-
-            Console.Write("Digite o telefone: ");
-            string telefone = Console.ReadLine();
-
-            Console.Write("Digite o endereco: ");
-            string endereco = Console.ReadLine();
-
-            Amigo amigo = new Amigo();
-
-            amigo.nome = nome;
-            amigo.nomeResponsavel = nomeResponsavel;
-            amigo.telefone = telefone;
-            amigo.endereco = endereco;
-
-            return amigo;
+            notificador.ApresentarMensagem("Amigo cadastrado com sucesso!", TipoMensagemEnum.Sucesso);
         }
 
         public void EditarAmigo()
@@ -69,52 +43,36 @@ namespace ClubeLeitura.ConsoleApp
 
             if (temAmigosCadastrados == false)
             {
-                notificador.ApresentarMensagem("Nenhum amigo cadastrado para editar", "Atencao");
+                notificador.ApresentarMensagem("Nenhum amigo cadastrado para poder editar.", TipoMensagemEnum.Atencao);
                 return;
             }
 
-            int idAmigo = ObterIdAmigo();
+            int numeroAmigo = ObterNumeroAmigo();
 
             Amigo amigoAtualizado = ObterAmigo();
 
-            repositorioAmigo.Editar(idAmigo, amigoAtualizado);
+            repositorioAmigo.Editar(numeroAmigo, amigoAtualizado);
 
-            notificador.ApresentarMensagem("Amigo editado com sucesso", "Sucesso");
+            notificador.ApresentarMensagem("Amigo editado com sucesso", TipoMensagemEnum.Sucesso);
         }
 
-        public int ObterIdAmigo()
+        public int ObterNumeroAmigo()
         {
-            int idAmigo;
-            bool idAmigoEncontrado;
+            int numeroAmigo;
+            bool numeroAmigoEncontrado;
 
             do
             {
-                Console.Write("Digite o Id do amigo que deseja editar: ");
-                idAmigo = Convert.ToInt32(Console.ReadLine());
+                Console.Write("Digite o número do amigo que deseja selecionar: ");
+                numeroAmigo = Convert.ToInt32(Console.ReadLine());
 
-                idAmigoEncontrado = repositorioAmigo.VerificarIdAmigoExiste(idAmigo);
+                numeroAmigoEncontrado = repositorioAmigo.VerificarNumeroAmigoExiste(numeroAmigo);
 
-                if (idAmigoEncontrado == false)
-                    notificador.ApresentarMensagem("Id do Amigo não encontrado, digite novamente", "Atencao");
+                if (numeroAmigoEncontrado == false)
+                    notificador.ApresentarMensagem("Número do amigo não encontrado, digite novamente.", TipoMensagemEnum.Atencao);
 
-
-
-            } while (idAmigoEncontrado == false);
-
-            return idAmigo;
-        }
-
-        public void MostrarTitulo(string titulo)
-        {
-            Console.Clear();
-
-            Console.ForegroundColor = ConsoleColor.Magenta;
-
-            Console.WriteLine(titulo);
-
-            Console.ResetColor();
-
-            Console.WriteLine();
+            } while (numeroAmigoEncontrado == false);
+            return numeroAmigo;
         }
 
         public void ExcluirAmigo()
@@ -125,15 +83,16 @@ namespace ClubeLeitura.ConsoleApp
 
             if (temAmigosCadastrados == false)
             {
-                notificador.ApresentarMensagem("Nenhum amigo cadastrado para poder excluir", "Atencao");
+                notificador.ApresentarMensagem(
+                    "Nenhum amigo cadastrado para poder excluir", TipoMensagemEnum.Atencao);
                 return;
             }
 
-            int idAmigo = ObterIdAmigo();
+            int numeroAmigo = ObterNumeroAmigo();
 
-            repositorioAmigo.Excluir(idAmigo);
+            repositorioAmigo.Excluir(numeroAmigo);
 
-            notificador.ApresentarMensagem("Amigo excluído com sucesso", "Sucesso");
+            notificador.ApresentarMensagem("Amigo excluído com sucesso", TipoMensagemEnum.Sucesso);
         }
 
         public bool VisualizarAmigos(string tipo)
@@ -148,21 +107,54 @@ namespace ClubeLeitura.ConsoleApp
 
             for (int i = 0; i < amigos.Length; i++)
             {
-                if (amigos[i] == null)
-                    continue;
+                Amigo a = amigos[i];
 
-                Amigo amigo = amigos[i];
-
-                Console.WriteLine($"Id Amigo: {amigo.idAmigo}");
-                Console.WriteLine($"Nome: {amigo.nome}");
-                Console.WriteLine($"Nome do Responsável: {amigo.nomeResponsavel} ");
-                Console.WriteLine($"Telefone: {amigo.telefone}");
-                Console.WriteLine($"Endereço: {amigo.endereco}");
+                Console.WriteLine("Número: " + a.numero);
+                Console.WriteLine("Nome: " + a.nome);
+                Console.WriteLine("Nome do responsável: " + a.nomeResponsavel);
+                Console.WriteLine("Onde mora: " + a.endereco);
 
                 Console.WriteLine();
             }
 
             return true;
+        }
+
+        public Amigo ObterAmigo()
+        {
+            Console.Write("Digite o nome do amigo: ");
+            string nome = Console.ReadLine();
+
+            Console.Write("Digite o nome do responsável: ");
+            string nomeResponsavel = Console.ReadLine();
+
+            Console.Write("Digite o número do telefone: ");
+            string telefone = Console.ReadLine();
+
+            Console.Write("Digite onde o amigo mora: ");
+            string endereco = Console.ReadLine();
+
+            Amigo amigo = new Amigo();
+
+            amigo.nome = nome;
+            amigo.nomeResponsavel = nomeResponsavel;
+            amigo.telefone = telefone;
+            amigo.endereco = endereco;
+
+            return amigo;
+        }
+
+        public void MostrarTitulo(string titulo)
+        {
+            Console.Clear();
+
+            Console.ForegroundColor = ConsoleColor.Magenta;
+
+            Console.WriteLine(titulo);
+
+            Console.Clear();
+
+            Console.WriteLine();
         }
     }
 }

@@ -9,11 +9,9 @@ namespace ClubeLeitura.ConsoleApp
         public string MostrarOpcoes()
         {
             Console.Clear();
-
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("Clube da Leitura 1.0");
             Console.ResetColor();
-
             Console.WriteLine();
 
             Console.WriteLine("Digite 1 para Cadastrar Caixas");

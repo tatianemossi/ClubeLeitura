@@ -2,16 +2,23 @@
 {
     public class RepositorioRevista
     {
-        public Revista[] revistas;
+        public Revista[] revistas; 
         public int numeroRevista;
 
-        public void Inserir(Revista revista)
+        public string Inserir(Revista revista)
         {
+            string validacao = revista.Validar();
+
+            if (validacao != "REGISTRO_VALIDO")
+                return validacao;
+
             revista.numero = ++numeroRevista;
 
             int posicaoVazia = ObterPosicaoVazia();
 
             revistas[posicaoVazia] = revista;
+
+            return validacao;
         }
 
         public void Editar(int numeroSelecionado, Revista revista)
@@ -58,6 +65,17 @@
             }
 
             return revistasInseridas;
+        }
+
+        public Revista SelecionarRevista(int numeroRevista)
+        {
+            for (int i = 0; i < revistas.Length; i++)
+            {
+                if (revistas[i] != null && numeroRevista == revistas[i].numero)
+                    return revistas[i];
+            }
+
+            return null;
         }
 
         public int ObterPosicaoVazia()

@@ -3,23 +3,23 @@
     public class RepositorioAmigo
     {
         public Amigo[] amigos;
-        public int idAmigo;
+
+        public int numeroAmigo;
 
         public void Inserir(Amigo amigo)
         {
-            amigo.idAmigo = ++idAmigo;
+            amigo.numero = ++numeroAmigo;
 
-            int posicaoVazia = ObterPosicaoVazia();
-            amigos[posicaoVazia] = amigo;
+            amigos[ObterPosicaoVazia()] = amigo;
         }
 
         public void Editar(int numeroSelecionado, Amigo amigo)
         {
             for (int i = 0; i < amigos.Length; i++)
             {
-                if (amigos[i].idAmigo == numeroSelecionado)
+                if (amigos[i].numero == numeroSelecionado)
                 {
-                    amigo.idAmigo = numeroSelecionado;
+                    amigo.numero = numeroSelecionado;
                     amigos[i] = amigo;
 
                     break;
@@ -31,14 +31,43 @@
         {
             for (int i = 0; i < amigos.Length; i++)
             {
-                if (amigos[i].idAmigo == numeroSelecionado)
+                if (amigos[i].numero == numeroSelecionado)
                 {
                     amigos[i] = null;
                     break;
                 }
             }
-        }       
-       
+        }
+
+        public Amigo[] SelecionarTodos()
+        {
+            Amigo[] amigosInseridos = new Amigo[ObterQtdAmigos()];
+
+            int j = 0;
+
+            for (int i = 0; i < amigos.Length; i++)
+            {
+                if (amigos[i] != null)
+                {
+                    amigosInseridos[j] = amigos[i];
+                    j++;
+                }
+            }
+
+            return amigosInseridos;
+        }
+
+        public Amigo SelecionarAmigo(int numeroAmigo)
+        {
+            for (int i = 0; i < amigos.Length; i++)
+            {
+                if (amigos[i] != null && numeroAmigo == amigos[i].numero)
+                    return amigos[i];
+            }
+
+            return null;
+        }
+
         public int ObterPosicaoVazia()
         {
             for (int i = 0; i < amigos.Length; i++)
@@ -50,52 +79,33 @@
             return -1;
         }
 
-        public Amigo[] SelecionarTodos()
-        {
-            int quantidadeAmigos = ObterQtdAmigos();
-
-            Amigo[] amigosInseridos = new Amigo[quantidadeAmigos];
-
-            int j = 0;
-
-            for (int i = 0; i < amigos.Length; i++)
-            {
-                if (amigos[i] != null)
-                {
-                    amigosInseridos[j] = amigos[i];
-                    j++;
-                }                    
-            }
-
-            return amigosInseridos;
-        }
-
         public int ObterQtdAmigos()
         {
-            int idAmigo = 0;
+            int numeroAmigos = 0;
 
             for (int i = 0; i < amigos.Length; i++)
             {
                 if (amigos[i] != null)
-                    idAmigo++;
+                    numeroAmigos++;
             }
 
-            return idAmigo;
+            return numeroAmigos;
         }
 
-        public bool VerificarIdAmigoExiste(int idAmigo)
+        public bool VerificarNumeroAmigoExiste(int numeroAmigo)
         {
-            bool idAmigoEncontrado = false;
+            bool numeroAmigoExiste = false;
 
             for (int i = 0; i < amigos.Length; i++)
             {
-                if (amigos[i] != null && amigos[i].idAmigo == idAmigo)
+                if (amigos[i] != null && amigos[i].numero == numeroAmigo)
                 {
-                    idAmigoEncontrado = true;
+                    numeroAmigoExiste = true;
                     break;
                 }
             }
-            return idAmigoEncontrado;
+
+            return numeroAmigoExiste;
         }
     }
 }
