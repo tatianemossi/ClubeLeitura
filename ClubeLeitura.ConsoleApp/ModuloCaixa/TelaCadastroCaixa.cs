@@ -108,9 +108,9 @@ namespace ClubeLeitura.ConsoleApp
             {
                 Caixa c = caixas[i];
 
-                Console.WriteLine("Número: " + c.numero);
-                Console.WriteLine("Cor: " + c.cor);
-                Console.WriteLine("Etiqueta: " + c.etiqueta);
+                Console.WriteLine("Número: " + c.Numero);
+                Console.WriteLine("Cor: " + c.Cor);
+                Console.WriteLine("Etiqueta: " + c.Etiqueta);
 
                 Console.WriteLine();
             }
@@ -144,8 +144,8 @@ namespace ClubeLeitura.ConsoleApp
 
             Caixa caixa = new Caixa();
 
-            caixa.etiqueta = etiqueta;
-            caixa.cor = cor;
+            caixa.Etiqueta = etiqueta;
+            caixa.Cor = cor;
 
             return caixa;
         }

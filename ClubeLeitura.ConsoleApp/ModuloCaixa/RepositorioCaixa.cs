@@ -7,7 +7,7 @@
 
         public void Inserir(Caixa caixa)
         {
-            caixa.numero = ++numeroCaixa;
+            caixa.Numero = ++numeroCaixa;
 
             int posicaoVazia = ObterPosicaoVazia();
             caixas[posicaoVazia] = caixa;
@@ -17,9 +17,9 @@
         {
             for (int i = 0; i < caixas.Length; i++)
             {
-                if (caixas[i].numero == numeroSelecionado)
+                if (caixas[i].Numero == numeroSelecionado)
                 {
-                    caixa.numero = numeroSelecionado;
+                    caixa.Numero = numeroSelecionado;
                     caixas[i] = caixa;
 
                     break;
@@ -31,7 +31,7 @@
         {
             for (int i = 0; i < caixas.Length; i++)
             {
-                if (caixas[i].numero == numeroSelecionado)
+                if (caixas[i].Numero == numeroSelecionado)
                 {
                     caixas[i] = null;
                     break;
@@ -44,7 +44,7 @@
             bool etiquetaJaUtilizada = false;
             for (int i = 0; i < caixas.Length; i++)
             {
-                if (caixas[i] != null && caixas[i].etiqueta == etiquetaInformada)
+                if (caixas[i] != null && caixas[i].Etiqueta == etiquetaInformada)
                 {
                     etiquetaJaUtilizada = true;
                     break;
@@ -60,7 +60,7 @@
 
             for (int i = 0; i < caixas.Length; i++)
             {
-                if (caixas[i] != null && caixas[i].numero == numeroCaixa)
+                if (caixas[i] != null && caixas[i].Numero == numeroCaixa)
                 {
                     numeroCaixaEncontrado = true;
                     break;
@@ -100,7 +100,7 @@
         {
             for (int i = 0; i < caixas.Length; i++)
             {
-                if (caixas[i] != null && numeroCaixa == caixas[i].numero)
+                if (caixas[i] != null && numeroCaixa == caixas[i].Numero)
                     return caixas[i];
             }
 

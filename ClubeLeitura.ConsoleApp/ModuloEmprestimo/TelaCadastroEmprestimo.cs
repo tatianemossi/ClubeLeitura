@@ -77,7 +77,7 @@ namespace ClubeLeitura.ConsoleApp
 
             Emprestimo emprestimoParaDevolver = repositorioEmprestimo.SelecionarEmprestimo(numeroEmprestimo);
 
-            if (!emprestimoParaDevolver.estaAberto)
+            if (!emprestimoParaDevolver.EstaAberto)
             {
                 notificador.ApresentarMensagem("O empréstimo selecionado não está mais aberto.", TipoMensagemEnum.Atencao);
                 return;
@@ -147,12 +147,12 @@ namespace ClubeLeitura.ConsoleApp
             {
                 Emprestimo emprestimo = emprestimos[i];
 
-                string statusEmprestimo = emprestimo.estaAberto ? "Aberto" : "Fechado";
+                string statusEmprestimo = emprestimo.EstaAberto ? "Aberto" : "Fechado";
 
-                Console.WriteLine("Número: " + emprestimo.numero);
-                Console.WriteLine("Revista emprestada: " + emprestimo.revista.colecao);
-                Console.WriteLine("Nome do amigo: " + emprestimo.amigo.nome);
-                Console.WriteLine("Data do empréstimo: " + emprestimo.dataEmprestimo);
+                Console.WriteLine("Número: " + emprestimo.Numero);
+                Console.WriteLine("Revista emprestada: " + emprestimo.Revista.Colecao);
+                Console.WriteLine("Nome do amigo: " + emprestimo.Amigo.Nome);
+                Console.WriteLine("Data do empréstimo: " + emprestimo.DataEmprestimo);
                 Console.WriteLine("Status do empréstimo: " + statusEmprestimo);
                 Console.WriteLine();
             }
@@ -174,10 +174,10 @@ namespace ClubeLeitura.ConsoleApp
             {
                 Emprestimo emprestimo = emprestimos[i];
 
-                Console.WriteLine("Número: " + emprestimo.numero);
-                Console.WriteLine("Revista emprestada: " + emprestimo.revista.colecao);
-                Console.WriteLine("Nome do amigo: " + emprestimo.amigo.nome);
-                Console.WriteLine("Data do empréstimo: " + emprestimo.dataEmprestimo);
+                Console.WriteLine("Número: " + emprestimo.Numero);
+                Console.WriteLine("Revista emprestada: " + emprestimo.Revista.Colecao);
+                Console.WriteLine("Nome do amigo: " + emprestimo.Amigo.Nome);
+                Console.WriteLine("Data do empréstimo: " + emprestimo.DataEmprestimo);
                 Console.WriteLine();
             }
 
@@ -191,11 +191,11 @@ namespace ClubeLeitura.ConsoleApp
 
             Emprestimo novoEmprestimo = new Emprestimo();
 
-            novoEmprestimo.amigo = amigo;
-            novoEmprestimo.revista = revista;
-            novoEmprestimo.dataDevolucao = dataDevolucao;
+            novoEmprestimo.Amigo = amigo;
+            novoEmprestimo.Revista = revista;
+            novoEmprestimo.DataDevolucao = dataDevolucao;
 
-            novoEmprestimo.dataEmprestimo = DateTime.Now;
+            novoEmprestimo.DataEmprestimo = DateTime.Now;
 
             return novoEmprestimo;
         }

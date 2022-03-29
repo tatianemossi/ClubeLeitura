@@ -12,7 +12,7 @@
             if (validacao != "REGISTRO_VALIDO")
                 return validacao;
 
-            revista.numero = ++numeroRevista;
+            revista.Numero = ++numeroRevista;
 
             int posicaoVazia = ObterPosicaoVazia();
 
@@ -25,9 +25,9 @@
         {
             for (int i = 0; i < revistas.Length; i++)
             {
-                if (revistas[i].numero == numeroSelecionado)
+                if (revistas[i].Numero == numeroSelecionado)
                 {
-                    revista.numero = numeroSelecionado;
+                    revista.Numero = numeroSelecionado;
                     revistas[i] = revista;
 
                     break;
@@ -39,7 +39,7 @@
         {
             for (int i = 0; i < revistas.Length; i++)
             {
-                if (revistas[i].numero == numeroSelecionado)
+                if (revistas[i].Numero == numeroSelecionado)
                 {
                     revistas[i] = null;
                     break;
@@ -71,7 +71,7 @@
         {
             for (int i = 0; i < revistas.Length; i++)
             {
-                if (revistas[i] != null && numeroRevista == revistas[i].numero)
+                if (revistas[i] != null && numeroRevista == revistas[i].Numero)
                     return revistas[i];
             }
 
@@ -95,7 +95,7 @@
 
             for (int i = 0; i < revistas.Length; i++)
             {
-                if (revistas[i] != null && revistas[i].numero == numeroRevista)
+                if (revistas[i] != null && revistas[i].Numero == numeroRevista)
                 {
                     numeroRevistaEncontrado = true;
                     break;

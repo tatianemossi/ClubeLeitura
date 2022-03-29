@@ -109,10 +109,10 @@ namespace ClubeLeitura.ConsoleApp
             {
                 Amigo a = amigos[i];
 
-                Console.WriteLine("Número: " + a.numero);
-                Console.WriteLine("Nome: " + a.nome);
-                Console.WriteLine("Nome do responsável: " + a.nomeResponsavel);
-                Console.WriteLine("Onde mora: " + a.endereco);
+                Console.WriteLine("Número: " + a.Numero);
+                Console.WriteLine("Nome: " + a.Nome);
+                Console.WriteLine("Nome do responsável: " + a.NomeResponsavel);
+                Console.WriteLine("Onde mora: " + a.Endereco);
 
                 Console.WriteLine();
             }
@@ -136,10 +136,10 @@ namespace ClubeLeitura.ConsoleApp
 
             Amigo amigo = new Amigo();
 
-            amigo.nome = nome;
-            amigo.nomeResponsavel = nomeResponsavel;
-            amigo.telefone = telefone;
-            amigo.endereco = endereco;
+            amigo.Nome = nome;
+            amigo.NomeResponsavel = nomeResponsavel;
+            amigo.Telefone = telefone;
+            amigo.Endereco = endereco;
 
             return amigo;
         }

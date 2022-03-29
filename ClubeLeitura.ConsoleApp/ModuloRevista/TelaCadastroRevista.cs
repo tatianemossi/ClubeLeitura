@@ -38,7 +38,7 @@ namespace ClubeLeitura.ConsoleApp
 
             Revista novaRevista = ObterRevista();
 
-            novaRevista.caixa = caixaSelecionada;
+            novaRevista.Caixa = caixaSelecionada;
             
             string statusValidacao = repositorioRevista.Inserir(novaRevista);
 
@@ -68,7 +68,7 @@ namespace ClubeLeitura.ConsoleApp
 
             Revista revistaAtualizada = ObterRevista();
 
-            revistaAtualizada.caixa = caixaSelecionada;
+            revistaAtualizada.Caixa = caixaSelecionada;
 
             repositorioRevista.Editar(numeroRevista, revistaAtualizada);
 
@@ -109,11 +109,11 @@ namespace ClubeLeitura.ConsoleApp
             {
                 Revista revista = revistas[i];
 
-                Console.WriteLine("Número: " + revista.numero);
-                Console.WriteLine("Coleção: " + revista.colecao);
-                Console.WriteLine("Edição: " + revista.edicao);
-                Console.WriteLine("Ano: " + revista.ano);
-                Console.WriteLine("Caixa que está guardada: " + revista.caixa.cor);
+                Console.WriteLine("Número: " + revista.Numero);
+                Console.WriteLine("Coleção: " + revista.Colecao);
+                Console.WriteLine("Edição: " + revista.Edicao);
+                Console.WriteLine("Ano: " + revista.Ano);
+                Console.WriteLine("Caixa que está guardada: " + revista.Caixa.Cor);
 
                 Console.WriteLine();
             }
@@ -134,9 +134,9 @@ namespace ClubeLeitura.ConsoleApp
 
             Revista novaRevista = new Revista();
 
-            novaRevista.colecao = colecao;
-            novaRevista.edicao = edicao;
-            novaRevista.ano = ano;
+            novaRevista.Colecao = colecao;
+            novaRevista.Edicao = edicao;
+            novaRevista.Ano = ano;
 
             return novaRevista;
         }

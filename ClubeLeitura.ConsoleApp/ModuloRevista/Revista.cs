@@ -5,26 +5,61 @@ namespace ClubeLeitura.ConsoleApp
 {
     public class Revista
     {
-        public int numero;
-        public string colecao;
-        public int edicao;
-        public int ano;
-        public Caixa caixa;
+        private int _numero;
+        public int Numero
+        {
+            get { return _numero; }
+            set { _numero = value; }
+        }
 
-        public Emprestimo[] historicoEmprestimos = new Emprestimo[10];
+        private string _colecao;
+        public string Colecao
+        {
+            get { return _colecao; }
+            set { _colecao = value; }
+        }
+
+        private int _edicao;
+        public int Edicao
+        {
+            get { return _edicao; }
+            set { _edicao = value; }
+        }
+
+        private int _ano;
+        public int Ano
+        {
+            get { return _ano; }
+            set { _ano = value; }
+        } 
+
+        private Caixa _caixa;
+        public Caixa Caixa
+        {
+            get { return _caixa; }
+            set { _caixa = value; }
+        }
+
+        private Emprestimo[] _historicoEmprestimos = new Emprestimo[10];
+        public Emprestimo[] HistoricoEmprestimos
+        {
+            get { return _historicoEmprestimos; }
+            set { _historicoEmprestimos = value; }
+        }
+
 
         public void RegistrarEmprestimo(Emprestimo emprestimo)
         {
-            historicoEmprestimos[ObtemPosicaoVazia()] = emprestimo;
+            _historicoEmprestimos[ObtemPosicaoVazia()] = emprestimo;
         }
 
         public bool EstaEmprestada()
         {
             bool temEmprestimoEmAberto = false;
 
-            foreach (Emprestimo emprestimo in historicoEmprestimos)
+            foreach (Emprestimo emprestimo in _historicoEmprestimos)
             {
-                if (emprestimo != null && emprestimo.estaAberto)
+                if (emprestimo != null && emprestimo.EstaAberto)
                 {
                     temEmprestimoEmAberto = true;
                     break;
@@ -37,13 +72,13 @@ namespace ClubeLeitura.ConsoleApp
         {
             string validacao = "";
 
-            if (string.IsNullOrEmpty(colecao))
+            if (string.IsNullOrEmpty(_colecao))
                 validacao += "É necessário incluir uma coleção!\n";
 
-            if (edicao < 0)
+            if (_edicao < 0)
                 validacao += "A edição de uma revista não pode ser menor que zero!\n";
 
-            if (ano < 0 || ano > DateTime.Now.Year)
+            if (_ano < 0 || _ano > DateTime.Now.Year)
                 validacao += "O ano da revista precisa ser válido!\n";
 
             if (string.IsNullOrEmpty(validacao))
@@ -54,9 +89,9 @@ namespace ClubeLeitura.ConsoleApp
 
         public int ObtemPosicaoVazia()
         {
-            for (int i = 0; i < historicoEmprestimos.Length; i++)
+            for (int i = 0; i < _historicoEmprestimos.Length; i++)
             {
-                if (historicoEmprestimos[i] == null)
+                if (_historicoEmprestimos[i] == null)
                     return i;
             }
 

@@ -8,7 +8,7 @@
 
         public void Inserir(Amigo amigo)
         {
-            amigo.numero = ++numeroAmigo;
+            amigo.Numero = ++numeroAmigo;
 
             amigos[ObterPosicaoVazia()] = amigo;
         }
@@ -17,9 +17,9 @@
         {
             for (int i = 0; i < amigos.Length; i++)
             {
-                if (amigos[i].numero == numeroSelecionado)
+                if (amigos[i].Numero == numeroSelecionado)
                 {
-                    amigo.numero = numeroSelecionado;
+                    amigo.Numero = numeroSelecionado;
                     amigos[i] = amigo;
 
                     break;
@@ -31,7 +31,7 @@
         {
             for (int i = 0; i < amigos.Length; i++)
             {
-                if (amigos[i].numero == numeroSelecionado)
+                if (amigos[i].Numero == numeroSelecionado)
                 {
                     amigos[i] = null;
                     break;
@@ -61,7 +61,7 @@
         {
             for (int i = 0; i < amigos.Length; i++)
             {
-                if (amigos[i] != null && numeroAmigo == amigos[i].numero)
+                if (amigos[i] != null && numeroAmigo == amigos[i].Numero)
                     return amigos[i];
             }
 
@@ -98,7 +98,7 @@
 
             for (int i = 0; i < amigos.Length; i++)
             {
-                if (amigos[i] != null && amigos[i].numero == numeroAmigo)
+                if (amigos[i] != null && amigos[i].Numero == numeroAmigo)
                 {
                     numeroAmigoExiste = true;
                     break;
