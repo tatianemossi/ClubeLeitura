@@ -1,7 +1,9 @@
 ﻿
+using ClubeLeitura.ConsoleApp.Compartilhado;
+
 namespace ClubeLeitura.ConsoleApp.ModuloCaixa
 {
-    public class RepositorioCaixa
+    public class RepositorioCaixa : IRepositorio<Caixa>
     {
         private readonly Caixa[] caixas;
         private int numeroCaixa;
@@ -45,9 +47,9 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
             }
         }
 
-        public Caixa[] SelecionarTodos()
+        public Caixa[] ObterTodosRegistros()
         {
-            int quantidadeCaixas = ObterQtdCaixas();
+            int quantidadeCaixas = ObterQuantidadeRegistros();
 
             Caixa[] caixasInseridas = new Caixa[quantidadeCaixas];
 
@@ -60,7 +62,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
             return caixasInseridas;
         }
 
-        public Caixa SelecionarCaixa(int numeroCaixa)
+        public Caixa ObterRegistro(int numero)
         {
             for (int i = 0; i < caixas.Length; i++)
             {
@@ -71,22 +73,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
             return null;
         }
 
-        public bool EtiquetaJaUtilizada(string etiquetaInformada)
-        {
-            bool etiquetaJaUtilizada = false;
-            for (int i = 0; i < caixas.Length; i++)
-            {
-                if (caixas[i] != null && caixas[i].Etiqueta == etiquetaInformada)
-                {
-                    etiquetaJaUtilizada = true;
-                    break;
-                }
-            }
-
-            return etiquetaJaUtilizada;
-        }
-
-        public bool VerificarNumeroCaixaExiste(int numeroCaixa)
+        public bool ExisteNumeroRegistro(int numero)
         {
             bool numeroCaixaEncontrado = false;
 
@@ -102,8 +89,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
             return numeroCaixaEncontrado;
         }
 
-        #region Métodos privados
-        private int ObterQtdCaixas()
+        public int ObterQuantidadeRegistros()
         {
             int numeroCaixas = 0;
 
@@ -116,7 +102,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
             return numeroCaixas;
         }
 
-        private int ObterPosicaoVazia()
+        public int ObterPosicaoVazia()
         {
             for (int i = 0; i < caixas.Length; i++)
             {
@@ -125,6 +111,27 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
             }
 
             return -1;
+        }
+
+        public int ObterNumeroRegistro()
+        {
+            return ++numeroCaixa;
+        }
+
+        #region Métodos Específicos da Classe
+        public bool EtiquetaJaUtilizada(string etiquetaInformada)
+        {
+            bool etiquetaJaUtilizada = false;
+            for (int i = 0; i < caixas.Length; i++)
+            {
+                if (caixas[i] != null && caixas[i].Etiqueta == etiquetaInformada)
+                {
+                    etiquetaJaUtilizada = true;
+                    break;
+                }
+            }
+
+            return etiquetaJaUtilizada;
         }
         #endregion
     }

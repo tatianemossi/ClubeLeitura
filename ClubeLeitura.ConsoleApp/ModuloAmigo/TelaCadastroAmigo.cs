@@ -15,11 +15,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloAmigo
 
         public string MostrarOpcoes()
         {
-            Console.Clear();
-
-            Console.WriteLine("Cadastro de Amigos");
-
-            Console.WriteLine();
+            MostrarTitulo("Cadastro de Amigos");
 
             Console.WriteLine("Digite 1 para Inserir");
             Console.WriteLine("Digite 2 para Editar");
@@ -49,7 +45,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloAmigo
 
             int numeroAmigoComMulta = ObterNumeroAmigo();
 
-            Amigo amigoComMulta = repositorioAmigo.SelecionarAmigo(numeroAmigoComMulta);
+            Amigo amigoComMulta = repositorioAmigo.ObterRegistro(numeroAmigoComMulta);
 
             amigoComMulta.PagarMulta();
         }
@@ -112,7 +108,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloAmigo
             if (tipo == "Tela")
                 MostrarTitulo("Visualização de Amigos");
 
-            Amigo[] amigos = repositorioAmigo.SelecionarTodos();
+            Amigo[] amigos = repositorioAmigo.ObterTodosRegistros();
 
             if (amigos.Length == 0)
                 return false;
@@ -169,7 +165,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloAmigo
                 Console.Write("Digite o número do amigo que deseja selecionar: ");
                 numeroAmigo = Convert.ToInt32(Console.ReadLine());
 
-                numeroAmigoEncontrado = repositorioAmigo.VerificarNumeroAmigoExiste(numeroAmigo);
+                numeroAmigoEncontrado = repositorioAmigo.ExisteNumeroRegistro(numeroAmigo);
 
                 if (numeroAmigoEncontrado == false)
                     notificador.ApresentarMensagem("Número do amigo não encontrado, digite novamente.", TipoMensagem.Atencao);

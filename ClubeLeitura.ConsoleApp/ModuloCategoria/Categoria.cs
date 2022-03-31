@@ -1,10 +1,9 @@
-﻿using ClubeLeitura.ConsoleApp.ModuloRevista;
+﻿using ClubeLeitura.ConsoleApp.Compartilhado;
+using ClubeLeitura.ConsoleApp.ModuloRevista;
 namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 {
-    public class Categoria
+    public class Categoria : EntidadeBase
     {
-        public int numero;
-
         private readonly string nome;
         private readonly int diasEmprestimo;
 

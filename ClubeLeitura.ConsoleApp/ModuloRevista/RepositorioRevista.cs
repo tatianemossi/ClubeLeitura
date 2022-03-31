@@ -1,6 +1,8 @@
-﻿namespace ClubeLeitura.ConsoleApp.ModuloRevista
+﻿using ClubeLeitura.ConsoleApp.Compartilhado;
+
+namespace ClubeLeitura.ConsoleApp.ModuloRevista
 {
-    public class RepositorioRevista
+    public class RepositorioRevista : IRepositorio<Revista>
     {
         private int numeroRevista;
         private readonly Revista[] revistas;
@@ -52,9 +54,9 @@
             }
         }
 
-        public Revista[] SelecionarTodos()
+        public Revista[] ObterTodosRegistros()
         {
-            int quantidadeRevistas = ObterQtdRevistas();
+            int quantidadeRevistas = ObterQuantidadeRegistros();
 
             Revista[] revistasInseridas = new Revista[quantidadeRevistas];
 
@@ -72,7 +74,7 @@
             return revistasInseridas;
         }
 
-        public Revista SelecionarRevista(int numeroRevista)
+        public Revista ObterRegistro(int numero)
         {
             for (int i = 0; i < revistas.Length; i++)
             {
@@ -83,7 +85,7 @@
             return null;
         }
 
-        public bool VerificarNumeroRevistaExiste(int numeroRevista)
+        public bool ExisteNumeroRegistro(int numero)
         {
             bool numeroRevistaEncontrado = false;
 
@@ -99,7 +101,6 @@
             return numeroRevistaEncontrado;
         }
 
-        #region Métodos privados
         public int ObterPosicaoVazia()
         {
             for (int i = 0; i < revistas.Length; i++)
@@ -111,7 +112,7 @@
             return -1;
         }
 
-        public int ObterQtdRevistas()
+        public int ObterQuantidadeRegistros()
         {
             int numeroRevistas = 0;
 
@@ -123,6 +124,15 @@
 
             return numeroRevistas;
         }
-        #endregion
+        
+        public int ObterNumeroRegistro()
+        {
+            return ++numeroRevista;
+        }
+
+        void IRepositorio<Revista>.Inserir(Revista item)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

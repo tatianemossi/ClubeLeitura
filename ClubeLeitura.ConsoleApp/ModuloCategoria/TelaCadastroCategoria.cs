@@ -15,11 +15,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 
         public string MostrarOpcoes()
         {
-            Console.Clear();
-
-            Console.WriteLine("Cadastro de Categorias de Revistas");
-
-            Console.WriteLine();
+            MostrarTitulo("Cadastro de Categorias de Revistas");
 
             Console.WriteLine("Digite 1 para Inserir");
             Console.WriteLine("Digite 2 para Editar");
@@ -90,7 +86,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
             if (tipo == "Tela")
                 MostrarTitulo("Visualização de Categorias");
 
-            Categoria[] categorias = repositorioCategoria.SelecionarTodos();
+            Categoria[] categorias = repositorioCategoria.ObterTodosRegistros();
 
             if (categorias.Length == 0)
                 return false;
@@ -120,7 +116,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
                 Console.Write("Digite o número da categoria que deseja selecionar: ");
                 numeroCategoria = Convert.ToInt32(Console.ReadLine());
 
-                numeroCadastroEncontrado = repositorioCategoria.VerificarNumeroCategoriaExiste(numeroCategoria);
+                numeroCadastroEncontrado = repositorioCategoria.ExisteNumeroRegistro(numeroCategoria);
 
                 if (numeroCadastroEncontrado == false)
                     notificador.ApresentarMensagem("Número de cadastro não encontrado, digite novamente", TipoMensagem.Atencao);

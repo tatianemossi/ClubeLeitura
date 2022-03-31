@@ -36,11 +36,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
         public string MostrarOpcoes()
         {
-            Console.Clear();
-
-            Console.WriteLine("Cadastro de Reservas");
-
-            Console.WriteLine();
+            MostrarTitulo("Cadastro de Reservas");
 
             Console.WriteLine("Digite 1 para Registrar Reserva");
             Console.WriteLine("Digite 2 para Visualizar");
@@ -58,7 +54,6 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
         {
             MostrarTitulo("Inserindo nova Reserva");
 
-            // Validação do Amigo
             Amigo amigoSelecionado = ObtemAmigo();
 
             if (amigoSelecionado.TemMultaEmAberto())
@@ -124,7 +119,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
             if (tipo == "Tela")
                 MostrarTitulo("Visualização de Reservas");
 
-            Reserva[] reservas = repositorioReserva.SelecionarTodos();
+            Reserva[] reservas = repositorioReserva.ObterTodosRegistros();
 
             if (reservas.Length == 0)
                 return false;
@@ -195,7 +190,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
             Console.WriteLine();
 
-            Reserva reservaSelecionada = repositorioReserva.SelecionarReserva(numeroReserva);
+            Reserva reservaSelecionada = repositorioReserva.ObterRegistro(numeroReserva);
 
             return reservaSelecionada;
         }
@@ -215,7 +210,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
             Console.WriteLine();
 
-            Amigo amigoSelecionado = repositorioAmigo.SelecionarAmigo(numeroAmigoEmprestimo);
+            Amigo amigoSelecionado = repositorioAmigo.ObterRegistro(numeroAmigoEmprestimo);
 
             return amigoSelecionado;
         }

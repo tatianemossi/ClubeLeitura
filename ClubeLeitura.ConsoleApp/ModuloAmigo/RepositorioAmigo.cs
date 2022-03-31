@@ -1,8 +1,9 @@
-﻿using System;
+﻿using ClubeLeitura.ConsoleApp.Compartilhado;
+using System;
 
 namespace ClubeLeitura.ConsoleApp.ModuloAmigo
 {
-    public class RepositorioAmigo
+    public class RepositorioAmigo : IRepositorio<Amigo>
     {
         private int numeroAmigo;
         private readonly Amigo[] amigos;
@@ -45,9 +46,9 @@ namespace ClubeLeitura.ConsoleApp.ModuloAmigo
             }
         }
 
-        public Amigo[] SelecionarTodos()
+        public Amigo[] ObterTodosRegistros()
         {
-            Amigo[] amigosInseridos = new Amigo[ObterQtdAmigos()];
+            Amigo[] amigosInseridos = new Amigo[ObterQuantidadeRegistros()];
 
             int j = 0;
 
@@ -63,6 +64,63 @@ namespace ClubeLeitura.ConsoleApp.ModuloAmigo
             return amigosInseridos;
         }
 
+        public Amigo ObterRegistro(int numero)
+        {
+            for (int i = 0; i < amigos.Length; i++)
+            {
+                if (amigos[i] != null && numeroAmigo == amigos[i].numero)
+                    return amigos[i];
+            }
+
+            return null;
+        }
+
+        public bool ExisteNumeroRegistro(int numero)
+        {
+            bool numeroAmigoExiste = false;
+
+            for (int i = 0; i < amigos.Length; i++)
+            {
+                if (amigos[i] != null && amigos[i].numero == numeroAmigo)
+                {
+                    numeroAmigoExiste = true;
+                    break;
+                }
+            }
+
+            return numeroAmigoExiste;
+        }
+
+        public int ObterPosicaoVazia()
+        {
+            for (int i = 0; i < amigos.Length; i++)
+            {
+                if (amigos[i] == null)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        public int ObterQuantidadeRegistros()
+        {
+            int numeroAmigos = 0;
+
+            for (int i = 0; i < amigos.Length; i++)
+            {
+                if (amigos[i] != null)
+                    numeroAmigos++;
+            }
+
+            return numeroAmigos;
+        }
+
+        public int ObterNumeroRegistro()
+        {
+            return ++numeroAmigo;
+        }
+
+        #region Métodos Específicos da Classe
         public Amigo[] SelecionarAmigosComMulta()
         {
             Amigo[] amigosComMulta = new Amigo[ObterQtdAmigosComMulta()];
@@ -81,60 +139,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloAmigo
             return amigosComMulta;
         }
 
-        public Amigo SelecionarAmigo(int numeroAmigo)
-        {
-            for (int i = 0; i < amigos.Length; i++)
-            {
-                if (amigos[i] != null && numeroAmigo == amigos[i].numero)
-                    return amigos[i];
-            }
-
-            return null;
-        }
-
-
-        public bool VerificarNumeroAmigoExiste(int numeroAmigo)
-        {
-            bool numeroAmigoExiste = false;
-
-            for (int i = 0; i < amigos.Length; i++)
-            {
-                if (amigos[i] != null && amigos[i].numero == numeroAmigo)
-                {
-                    numeroAmigoExiste = true;
-                    break;
-                }
-            }
-
-            return numeroAmigoExiste;
-        }
-
-        #region Métodos privados
-        private int ObterPosicaoVazia()
-        {
-            for (int i = 0; i < amigos.Length; i++)
-            {
-                if (amigos[i] == null)
-                    return i;
-            }
-
-            return -1;
-        }
-
-        private int ObterQtdAmigos()
-        {
-            int numeroAmigos = 0;
-
-            for (int i = 0; i < amigos.Length; i++)
-            {
-                if (amigos[i] != null)
-                    numeroAmigos++;
-            }
-
-            return numeroAmigos;
-        }
-
-        private int ObterQtdAmigosComMulta()
+        public int ObterQtdAmigosComMulta()
         {
             int numeroAmigos = 0;
 

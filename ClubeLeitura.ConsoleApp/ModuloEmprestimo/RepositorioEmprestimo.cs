@@ -1,6 +1,8 @@
-﻿namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
+﻿using ClubeLeitura.ConsoleApp.Compartilhado;
+
+namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
 {
-    public class RepositorioEmprestimo
+    public class RepositorioEmprestimo : IRepositorio<Emprestimo>
     {
         private readonly Emprestimo[] emprestimos;
         private int numeroEmprestimo;
@@ -21,14 +23,7 @@
 
             emprestimos[ObterPosicaoVazia()] = emprestimo;
         }
-
-        public bool RegistrarDevolucao(Emprestimo emprestimo)
-        {
-            emprestimo.Fechar();
-
-            return true;
-        }
-
+              
         public void Editar(int numeroSelecionado, Emprestimo emprestimo)
         {
             for (int i = 0; i < emprestimos.Length; i++)
@@ -55,9 +50,9 @@
             }
         }
 
-        public Emprestimo[] SelecionarTodos()
+        public Emprestimo[] ObterTodosRegistros()
         {
-            Emprestimo[] emprestimosInseridos = new Emprestimo[ObterQtdEmprestimos()];
+            Emprestimo[] emprestimosInseridos = new Emprestimo[ObterQuantidadeRegistros()];
 
             int j = 0;
 
@@ -73,25 +68,7 @@
             return emprestimosInseridos;
         }
 
-        public Emprestimo[] SelecionarEmprestimosAbertos()
-        {
-            Emprestimo[] emprestimosAbertos = new Emprestimo[ObterQtdEmprestimosAbertos()];
-
-            int j = 0;
-
-            for (int i = 0; i < emprestimos.Length; i++)
-            {
-                if (emprestimos[i] != null && emprestimos[i].estaAberto)
-                {
-                    emprestimosAbertos[j] = emprestimos[i];
-                    j++;
-                }
-            }
-
-            return emprestimosAbertos;
-        }
-
-        public Emprestimo SelecionarEmprestimo(int numeroEmprestimo)
+        public Emprestimo ObterRegistro(int numero)
         {
             for (int i = 0; i < emprestimos.Length; i++)
             {
@@ -113,7 +90,7 @@
             return -1;
         }
 
-        public int ObterQtdEmprestimos()
+        public int ObterQuantidadeRegistros()
         {
             int numeroEmprestimos = 0;
 
@@ -124,6 +101,53 @@
             }
 
             return numeroEmprestimos;
+        }
+
+        public bool ExisteNumeroRegistro(int numero)
+        {
+            bool numeroEmprestimoExiste = false;
+
+            for (int i = 0; i < emprestimos.Length; i++)
+            {
+                if (emprestimos[i] != null && emprestimos[i].numero == numeroEmprestimo)
+                {
+                    numeroEmprestimoExiste = true;
+                    break;
+                }
+            }
+
+            return numeroEmprestimoExiste;
+        }
+
+        public int ObterNumeroRegistro()
+        {
+            return ++numeroEmprestimo;
+        }
+
+        #region Métodos Específicos da Classe
+        public bool RegistrarDevolucao(Emprestimo emprestimo)
+        {
+            emprestimo.Fechar();
+
+            return true;
+        }
+
+        public Emprestimo[] SelecionarEmprestimosAbertos()
+        {
+            Emprestimo[] emprestimosAbertos = new Emprestimo[ObterQuantidadeRegistros()];
+
+            int j = 0;
+
+            for (int i = 0; i < emprestimos.Length; i++)
+            {
+                if (emprestimos[i] != null && emprestimos[i].estaAberto)
+                {
+                    emprestimosAbertos[j] = emprestimos[i];
+                    j++;
+                }
+            }
+
+            return emprestimosAbertos;
         }
 
         public int ObterQtdEmprestimosAbertos()
@@ -139,20 +163,6 @@
             return numeroEmprestimos;
         }
 
-        public bool VerificarNumeroEmprestimoExiste(int numeroEmprestimo)
-        {
-            bool numeroEmprestimoExiste = false;
-
-            for (int i = 0; i < emprestimos.Length; i++)
-            {
-                if (emprestimos[i] != null && emprestimos[i].numero == numeroEmprestimo)
-                {
-                    numeroEmprestimoExiste = true;
-                    break;
-                }
-            }
-
-            return numeroEmprestimoExiste;
-        }
+        #endregion
     }
 }

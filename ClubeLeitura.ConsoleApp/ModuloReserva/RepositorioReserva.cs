@@ -1,6 +1,8 @@
-﻿namespace ClubeLeitura.ConsoleApp.ModuloReserva
+﻿using ClubeLeitura.ConsoleApp.Compartilhado;
+
+namespace ClubeLeitura.ConsoleApp.ModuloReserva
 {
-    public class RepositorioReserva
+    public class RepositorioReserva : IRepositorio<Reserva>
     {
         private readonly Reserva[] reservas;
         private int numeroReserva;
@@ -21,9 +23,26 @@
             reservas[ObterPosicaoVazia()] = reserva;
         }
 
-        public Reserva[] SelecionarTodos()
+        public void Editar(int numero, Reserva item)
         {
-            Reserva[] reservasInseridas = new Reserva[ObterQtdReservas()];
+            throw new System.NotImplementedException();
+        }
+
+        public void Excluir(int numero)
+        {
+            for (int i = 0; i < reservas.Length; i++)
+            {
+                if (reservas[i].numero == numero)
+                {
+                    reservas[i] = null;
+                    break;
+                }
+            }
+        }
+
+        public Reserva[] ObterTodosRegistros()
+        {
+            Reserva[] reservasInseridas = new Reserva[ObterQuantidadeRegistros()];
 
             int j = 0;
 
@@ -37,6 +56,76 @@
             }
 
             return reservasInseridas;
+        }
+
+        public Reserva ObterRegistro(int numero)
+        {
+            for (int i = 0; i < reservas.Length; i++)
+            {
+                if (reservas[i] != null && numeroReserva == reservas[i].numero)
+                    return reservas[i];
+            }
+
+            return null;
+        }
+
+        public int ObterQuantidadeRegistros()
+        {
+            int numeroReservas = 0;
+
+            for (int i = 0; i < reservas.Length; i++)
+            {
+                if (reservas[i] != null)
+                    numeroReservas++;
+            }
+
+            return numeroReservas;
+        }
+
+        public bool ExisteNumeroRegistro(int numero)
+        {
+            bool numeroReservaExiste = false;
+
+            for (int i = 0; i < reservas.Length; i++)
+            {
+                if (reservas[i] != null && reservas[i].numero == numeroReserva)
+                {
+                    numeroReservaExiste = true;
+                    break;
+                }
+            }
+
+            return numeroReservaExiste;
+        }
+
+        public int ObterPosicaoVazia()
+        {
+            for (int i = 0; i < reservas.Length; i++)
+            {
+                if (reservas[i] == null)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        public int ObterNumeroRegistro()
+        {
+            return ++numeroReserva;
+        }
+
+        #region Métodos Específicos da Classe
+        public int ObterQtdReservasEmAberto()
+        {
+            int numeroReservas = 0;
+
+            for (int i = 0; i < reservas.Length; i++)
+            {
+                if (reservas[i] != null && reservas[i].estaAberta)
+                    numeroReservas++;
+            }
+
+            return numeroReservas;
         }
 
         public Reserva[] SelecionarReservasEmAberto()
@@ -56,53 +145,6 @@
 
             return reservasInseridas;
         }
-
-        public Reserva SelecionarReserva(int numeroReserva)
-        {
-            for (int i = 0; i < reservas.Length; i++)
-            {
-                if (reservas[i] != null && numeroReserva == reservas[i].numero)
-                    return reservas[i];
-            }
-
-            return null;
-        }
-
-        public int ObterQtdReservas()
-        {
-            int numeroReservas = 0;
-
-            for (int i = 0; i < reservas.Length; i++)
-            {
-                if (reservas[i] != null)
-                    numeroReservas++;
-            }
-
-            return numeroReservas;
-        }
-
-        public int ObterQtdReservasEmAberto()
-        {
-            int numeroReservas = 0;
-
-            for (int i = 0; i < reservas.Length; i++)
-            {
-                if (reservas[i] != null && reservas[i].estaAberta)
-                    numeroReservas++;
-            }
-
-            return numeroReservas;
-        }
-
-        private int ObterPosicaoVazia()
-        {
-            for (int i = 0; i < reservas.Length; i++)
-            {
-                if (reservas[i] == null)
-                    return i;
-            }
-
-            return -1;
-        }
+        #endregion
     }
 }

@@ -31,11 +31,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloRevista
 
         public string MostrarOpcoes()
         {
-            Console.Clear();
-
-            Console.WriteLine("Cadastro de Revistas");
-
-            Console.WriteLine();
+            MostrarTitulo("Cadastro de Revistas");
 
             Console.WriteLine("Digite 1 para Inserir");
             Console.WriteLine("Digite 2 para Editar");
@@ -129,7 +125,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloRevista
             if (tipo == "Tela")
                 MostrarTitulo("Visualização de Revistas");
 
-            Revista[] revistas = repositorioRevista.SelecionarTodos();
+            Revista[] revistas = repositorioRevista.ObterTodosRegistros();
 
             if (revistas.Length == 0)
                 return false;
@@ -203,7 +199,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloRevista
 
             Console.WriteLine();
 
-            Caixa caixaSelecionada = repositorioCaixa.SelecionarCaixa(numCaixaSelecionada);
+            Caixa caixaSelecionada = repositorioCaixa.ObterRegistro(numCaixaSelecionada);
 
             return caixaSelecionada;
         }
@@ -218,7 +214,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloRevista
                 Console.Write("Digite o número da revista que deseja selecionar: ");
                 numeroRevista = Convert.ToInt32(Console.ReadLine());
 
-                numeroRevistaEncontrado = repositorioRevista.VerificarNumeroRevistaExiste(numeroRevista);
+                numeroRevistaEncontrado = repositorioRevista.ExisteNumeroRegistro(numeroRevista);
 
                 if (numeroRevistaEncontrado == false)
                     notificador.ApresentarMensagem("Número de revista não encontrado, digite novamente", TipoMensagem.Atencao);
@@ -227,7 +223,6 @@ namespace ClubeLeitura.ConsoleApp.ModuloRevista
 
             return numeroRevista;
         }
-
 
         private void MostrarTitulo(string titulo)
         {

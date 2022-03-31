@@ -1,6 +1,8 @@
-﻿namespace ClubeLeitura.ConsoleApp.ModuloCategoria
+﻿using ClubeLeitura.ConsoleApp.Compartilhado;
+
+namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 {
-    public class RepositorioCategoria
+    public class RepositorioCategoria : IRepositorio<Categoria>
     {
         private readonly Categoria[] categorias;
         private int numeroCategoria;
@@ -45,9 +47,9 @@
             }
         }
 
-        public Categoria[] SelecionarTodos()
+        public Categoria[] ObterTodosRegistros()
         {
-            int quantidadeCategorias = ObterQtdCategorias();
+            int quantidadeCategorias = ObterQuantidadeRegistros();
 
             Categoria[] categoriasInseridas = new Categoria[quantidadeCategorias];
 
@@ -76,7 +78,7 @@
             return null;
         }
 
-        public bool VerificarNumeroCategoriaExiste(int numeroCategoria)
+        public bool ExisteNumeroRegistro(int numero)
         {
             bool numeroRevistaEncontrado = false;
 
@@ -92,8 +94,7 @@
             return numeroRevistaEncontrado;
         }
 
-        #region Métodos privados
-        private int ObterPosicaoVazia()
+        public int ObterPosicaoVazia()
         {
             for (int i = 0; i < categorias.Length; i++)
             {
@@ -104,7 +105,7 @@
             return -1;
         }
 
-        private int ObterQtdCategorias()
+        public int ObterQuantidadeRegistros()
         {
             int numeroCategorias = 0;
 
@@ -115,7 +116,22 @@
             }
 
             return numeroCategorias;
+        }      
+
+        public Categoria ObterRegistro(int numero)
+        {
+            for (int i = 0; i < categorias.Length; i++)
+            {
+                if (categorias[i] != null && numeroCategoria == categorias[i].numero)
+                    return categorias[i];
+            }
+
+            return null;
+        }             
+                
+        public int ObterNumeroRegistro()
+        {
+            return ++numeroCategoria;
         }
-        #endregion
     }
 }
