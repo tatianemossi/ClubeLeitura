@@ -1,6 +1,6 @@
 ﻿namespace ClubeLeitura.ConsoleApp
 {
-    public enum TipoMensagemEnum
+    public enum TipoMensagem
     {
         Sucesso,
         Atencao,

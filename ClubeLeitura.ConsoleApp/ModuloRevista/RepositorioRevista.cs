@@ -2,8 +2,13 @@
 {
     public class RepositorioRevista
     {
-        public Revista[] revistas; 
-        public int numeroRevista;
+        private int numeroRevista;
+        private readonly Revista[] revistas;
+
+        public RepositorioRevista(int qtdRevistas)
+        {
+            revistas = new Revista[qtdRevistas];
+        }
 
         public string Inserir(Revista revista)
         {
@@ -12,7 +17,7 @@
             if (validacao != "REGISTRO_VALIDO")
                 return validacao;
 
-            revista.Numero = ++numeroRevista;
+            revista.numero = ++numeroRevista;
 
             int posicaoVazia = ObterPosicaoVazia();
 
@@ -25,9 +30,9 @@
         {
             for (int i = 0; i < revistas.Length; i++)
             {
-                if (revistas[i].Numero == numeroSelecionado)
+                if (revistas[i].numero == numeroSelecionado)
                 {
-                    revista.Numero = numeroSelecionado;
+                    revista.numero = numeroSelecionado;
                     revistas[i] = revista;
 
                     break;
@@ -39,7 +44,7 @@
         {
             for (int i = 0; i < revistas.Length; i++)
             {
-                if (revistas[i].Numero == numeroSelecionado)
+                if (revistas[i].numero == numeroSelecionado)
                 {
                     revistas[i] = null;
                     break;
@@ -71,13 +76,30 @@
         {
             for (int i = 0; i < revistas.Length; i++)
             {
-                if (revistas[i] != null && numeroRevista == revistas[i].Numero)
+                if (revistas[i] != null && numeroRevista == revistas[i].numero)
                     return revistas[i];
             }
 
             return null;
         }
 
+        public bool VerificarNumeroRevistaExiste(int numeroRevista)
+        {
+            bool numeroRevistaEncontrado = false;
+
+            for (int i = 0; i < revistas.Length; i++)
+            {
+                if (revistas[i] != null && revistas[i].numero == numeroRevista)
+                {
+                    numeroRevistaEncontrado = true;
+                    break;
+                }
+            }
+
+            return numeroRevistaEncontrado;
+        }
+
+        #region Métodos privados
         public int ObterPosicaoVazia()
         {
             for (int i = 0; i < revistas.Length; i++)
@@ -87,22 +109,6 @@
             }
 
             return -1;
-        }
-
-        public bool VerificarNumeroRevistaExiste(int numeroRevista)
-        {
-            bool numeroRevistaEncontrado = false;
-
-            for (int i = 0; i < revistas.Length; i++)
-            {
-                if (revistas[i] != null && revistas[i].Numero == numeroRevista)
-                {
-                    numeroRevistaEncontrado = true;
-                    break;
-                }
-            }
-
-            return numeroRevistaEncontrado;
         }
 
         public int ObterQtdRevistas()
@@ -117,5 +123,6 @@
 
             return numeroRevistas;
         }
+        #endregion
     }
 }

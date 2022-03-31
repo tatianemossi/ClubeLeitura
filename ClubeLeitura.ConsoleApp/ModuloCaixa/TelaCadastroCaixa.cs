@@ -1,16 +1,25 @@
-﻿
-using System;
+﻿using System;
 
-namespace ClubeLeitura.ConsoleApp
+namespace ClubeLeitura.ConsoleApp.ModuloCaixa
 {
     public class TelaCadastroCaixa
     {
-        public int numeroCaixa; 
-        public Notificador notificador; 
-        public RepositorioCaixa repositorioCaixa;
+        private readonly Notificador notificador;
+        private readonly RepositorioCaixa repositorioCaixa;
+
+        public TelaCadastroCaixa(RepositorioCaixa repositorioCaixa, Notificador notificador)
+        {
+            this.repositorioCaixa = repositorioCaixa;
+            this.notificador = notificador;
+        }
+
         public string MostrarOpcoes()
         {
-            MostrarTitulo("Cadastro de Caixas");
+            Console.Clear();
+
+            Console.WriteLine("Cadastro de Caixas");
+
+            Console.WriteLine();
 
             Console.WriteLine("Digite 1 para Inserir");
             Console.WriteLine("Digite 2 para Editar");
@@ -29,10 +38,10 @@ namespace ClubeLeitura.ConsoleApp
             MostrarTitulo("Inserindo nova Caixa");
 
             Caixa novaCaixa = ObterCaixa();
-            
+
             repositorioCaixa.Inserir(novaCaixa);
 
-            notificador.ApresentarMensagem("Caixa inserida com sucesso!", TipoMensagemEnum.Sucesso);
+            notificador.ApresentarMensagem("Caixa inserida com sucesso!", TipoMensagem.Sucesso);
         }
 
         public void EditarCaixa()
@@ -43,7 +52,7 @@ namespace ClubeLeitura.ConsoleApp
 
             if (temCaixasCadastradas == false)
             {
-                notificador.ApresentarMensagem("Nenhuma caixa cadastrada para poder editar", TipoMensagemEnum.Atencao);
+                notificador.ApresentarMensagem("Nenhuma caixa cadastrada para poder editar", TipoMensagem.Atencao);
                 return;
             }
 
@@ -53,7 +62,7 @@ namespace ClubeLeitura.ConsoleApp
 
             repositorioCaixa.Editar(numeroCaixa, caixaAtualizada);
 
-            notificador.ApresentarMensagem("Caixa editada com sucesso", TipoMensagemEnum.Sucesso);
+            notificador.ApresentarMensagem("Caixa editada com sucesso", TipoMensagem.Sucesso);
         }
 
         public int ObterNumeroCaixa()
@@ -69,7 +78,7 @@ namespace ClubeLeitura.ConsoleApp
                 numeroCaixaEncontrado = repositorioCaixa.VerificarNumeroCaixaExiste(numeroCaixa);
 
                 if (numeroCaixaEncontrado == false)
-                    notificador.ApresentarMensagem("Número de caixa não encontrado, digite novamente", TipoMensagemEnum.Atencao);
+                    notificador.ApresentarMensagem("Número de caixa não encontrado, digite novamente", TipoMensagem.Atencao);
 
             } while (numeroCaixaEncontrado == false);
             return numeroCaixa;
@@ -83,7 +92,8 @@ namespace ClubeLeitura.ConsoleApp
 
             if (temCaixasCadastradas == false)
             {
-                notificador.ApresentarMensagem("Nenhuma caixa cadastrada para poder excluir", TipoMensagemEnum.Atencao);
+                notificador.ApresentarMensagem(
+                    "Nenhuma caixa cadastrada para poder excluir", TipoMensagem.Atencao);
                 return;
             }
 
@@ -91,7 +101,7 @@ namespace ClubeLeitura.ConsoleApp
 
             repositorioCaixa.Excluir(numeroCaixa);
 
-            notificador.ApresentarMensagem("Caixa excluída com sucesso", TipoMensagemEnum.Sucesso);
+            notificador.ApresentarMensagem("Caixa excluída com sucesso", TipoMensagem.Sucesso);
         }
 
         public bool VisualizarCaixas(string tipo)
@@ -108,7 +118,7 @@ namespace ClubeLeitura.ConsoleApp
             {
                 Caixa c = caixas[i];
 
-                Console.WriteLine("Número: " + c.Numero);
+                Console.WriteLine("Número: " + c.numero);
                 Console.WriteLine("Cor: " + c.Cor);
                 Console.WriteLine("Etiqueta: " + c.Etiqueta);
 
@@ -134,7 +144,7 @@ namespace ClubeLeitura.ConsoleApp
 
                 if (etiquetaJaUtilizada)
                 {
-                    notificador.ApresentarMensagem("Etiqueta já utilizada, por gentileza informe outra", TipoMensagemEnum.Erro);
+                    notificador.ApresentarMensagem("Etiqueta já utilizada, por gentileza informe outra", TipoMensagem.Erro);
 
                     Console.Write("Digite a etiqueta: ");
                     etiqueta = Console.ReadLine();
@@ -142,10 +152,7 @@ namespace ClubeLeitura.ConsoleApp
 
             } while (etiquetaJaUtilizada);
 
-            Caixa caixa = new Caixa();
-
-            caixa.Etiqueta = etiqueta;
-            caixa.Cor = cor;
+            Caixa caixa = new Caixa(cor, etiqueta);
 
             return caixa;
         }
@@ -162,5 +169,6 @@ namespace ClubeLeitura.ConsoleApp
 
             Console.WriteLine();
         }
+
     }
 }

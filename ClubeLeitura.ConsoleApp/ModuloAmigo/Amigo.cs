@@ -1,64 +1,70 @@
 ﻿using ClubeLeitura.ConsoleApp.ModuloEmprestimo;
+using ClubeLeitura.ConsoleApp.ModuloReserva;
 
-namespace ClubeLeitura.ConsoleApp
+namespace ClubeLeitura.ConsoleApp.ModuloAmigo
 {
     public class Amigo
     {
-        private static int _numero;
-        public int Numero
-        {
-            get { return _numero; }
-            set { _numero = value; }
-        }
+        public int numero;
 
-        private string _nome;
-        public string Nome
-        {
-            get { return _nome; }
-            set { _nome = value; }
-        }
+        private readonly string nome;
+        private readonly string nomeResponsavel;
+        private readonly string telefone;
+        private readonly string endereco;
+        public Multa multa;
 
-        private string _nomeResponsavel;
-        public string NomeResponsavel
-        {
-            get { return _nomeResponsavel; }
-            set { _nomeResponsavel = value; }
-        }
+        private readonly Emprestimo[] historicoEmprestimos = new Emprestimo[10];
+        private readonly Reserva[] historicoReservas = new Reserva[10];
 
-        private string _telefone;
-        public string Telefone
-        {
-            get { return _telefone; }
-            set { _telefone = value; }
-        }
+        public string Nome => nome;
 
-        private string _endereco;
-        public string Endereco
-        {
-            get { return _endereco; }
-            set { _endereco = value; }
-        }
+        public string NomeResponsavel => nomeResponsavel;
 
-        private Emprestimo[] _historicoEmprestimos = new Emprestimo[10];
-        public Emprestimo[] HistoricoEmprestimos
-        {
-            get { return _historicoEmprestimos; }
-            set { _historicoEmprestimos = value; }
-        }
+        public string Telefone => telefone;
 
+        public string Endereco => endereco;
+
+        public Amigo(string nome, string nomeResponsavel, string telefone, string endereco)
+        {
+            this.nome = nome;
+            this.nomeResponsavel = nomeResponsavel;
+            this.telefone = telefone;
+            this.endereco = endereco;
+        }
 
         public void RegistrarEmprestimo(Emprestimo emprestimo)
         {
-            _historicoEmprestimos[ObtemPosicaoVazia()] = emprestimo;
+            historicoEmprestimos[ObtemPosicaoVazia()] = emprestimo;
+        }
+
+        public void RegistrarReserva(Reserva reserva)
+        {
+            historicoReservas[ObtemPosicaoReservasVazia()] = reserva;
+        }
+
+        public bool TemReservaEmAberto()
+        {
+            bool temReservaEmAberto = false;
+
+            foreach (Reserva reserva in historicoReservas)
+            {
+                if (reserva != null && reserva.estaAberta)
+                {
+                    temReservaEmAberto = true;
+                    break;
+                }
+            }
+
+            return temReservaEmAberto;
         }
 
         public bool TemEmprestimoEmAberto()
         {
             bool temEmprestimoEmAberto = false;
 
-            foreach (Emprestimo emprestimo in _historicoEmprestimos)
+            foreach (Emprestimo emprestimo in historicoEmprestimos)
             {
-                if (emprestimo != null && emprestimo.EstaAberto)
+                if (emprestimo != null && emprestimo.estaAberto)
                 {
                     temEmprestimoEmAberto = true;
                     break;
@@ -67,15 +73,49 @@ namespace ClubeLeitura.ConsoleApp
             return temEmprestimoEmAberto;
         }
 
+        public void RegistrarMulta(decimal valor)
+        {
+            Multa novaMulta = new Multa(valor);
+
+            multa = novaMulta;
+        }
+
+        public void PagarMulta()
+        {
+            if (multa != null)
+                multa = null;
+        }
+
+        public bool TemMultaEmAberto()
+        {
+            if (multa == null)
+                return false;
+
+            return true;
+        }
+
+        #region Métodos privados
         private int ObtemPosicaoVazia()
         {
-            for (int i = 0; i < _historicoEmprestimos.Length; i++)
+            for (int i = 0; i < historicoEmprestimos.Length; i++)
             {
-                if (_historicoEmprestimos[i] == null)
+                if (historicoEmprestimos[i] == null)
                     return i;
             }
 
             return -1;
         }
+
+        private int ObtemPosicaoReservasVazia()
+        {
+            for (int i = 0; i < historicoReservas.Length; i++)
+            {
+                if (historicoReservas[i] == null)
+                    return i;
+            }
+
+            return -1;
+        }
+        #endregion
     }
 }

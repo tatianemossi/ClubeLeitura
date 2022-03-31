@@ -1,58 +1,50 @@
-﻿using System;
+﻿using ClubeLeitura.ConsoleApp.ModuloAmigo;
+using ClubeLeitura.ConsoleApp.ModuloRevista;
+using System;
 
 namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
 {
     public class Emprestimo
     {
-        private static int _numero;
-        public int Numero
-        {
-            get { return _numero; }
-            set { _numero = value; }
-        }
+        public int numero;
 
-        private Amigo _amigo;
-        public Amigo Amigo
-        {
-            get { return _amigo; }
-            set { _amigo = value; }
-        }
+        public Amigo amigo;
+        public Revista revista;
+        public DateTime dataEmprestimo;
+        public DateTime dataDevolucao;
 
-        private Revista _revista;
-        public Revista Revista
-        {
-            get { return _revista; }
-            set { _revista = value; }
-        }
+        public bool estaAberto;
 
-        private DateTime _dataEmprestimo;
-        public DateTime DataEmprestimo
+        public void Abrir()
         {
-            get { return _dataEmprestimo; }
-            set { _dataEmprestimo = value; }
-        }
-
-        private DateTime _dataDevolucao;
-        public DateTime DataDevolucao
-        {
-            get { return _dataDevolucao; }
-            set { _dataDevolucao = value; }
-        }
-
-        private bool _estaAberto;
-        public bool EstaAberto
-        {
-            get { return _estaAberto; }
-            set { _estaAberto = value; }
-        }
-
-        public void Fechar(DateTime data)
-        {
-            if (_estaAberto)
+            if (!estaAberto)
             {
-                _estaAberto = false;
-                _dataDevolucao = data;
+                estaAberto = true;
+                dataEmprestimo = DateTime.Today;
+                dataDevolucao = dataEmprestimo.AddDays(revista.categoria.DiasEmprestimo);
             }
         }
+
+        public void Fechar()
+        {
+            if (estaAberto)
+            {
+                estaAberto = false;
+
+                DateTime dataRealDevolucao = DateTime.Today;
+
+                bool devolucaoAtrasada = dataRealDevolucao > dataDevolucao;
+
+                if (devolucaoAtrasada)
+                {
+                    int diasAtrasados = (dataRealDevolucao - dataDevolucao).Days;
+
+                    decimal valorMulta = 10 * diasAtrasados;
+
+                    amigo.RegistrarMulta(valorMulta);
+                }
+            }
+        }
+
     }
 }

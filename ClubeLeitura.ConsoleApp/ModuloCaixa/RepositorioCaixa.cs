@@ -1,25 +1,31 @@
-﻿namespace ClubeLeitura.ConsoleApp
+﻿
+namespace ClubeLeitura.ConsoleApp.ModuloCaixa
 {
     public class RepositorioCaixa
     {
-        public Caixa[] caixas;
-        public int numeroCaixa;
+        private readonly Caixa[] caixas;
+        private int numeroCaixa;
+
+        public RepositorioCaixa(int qtdCaixas)
+        {
+            caixas = new Caixa[qtdCaixas];
+        }
 
         public void Inserir(Caixa caixa)
         {
-            caixa.Numero = ++numeroCaixa;
+            caixa.numero = ++numeroCaixa;
 
             int posicaoVazia = ObterPosicaoVazia();
             caixas[posicaoVazia] = caixa;
         }
 
-        public void Editar(int numeroSelecionado, Caixa caixa)
+        public void Editar(int numeroSelecioando, Caixa caixa)
         {
             for (int i = 0; i < caixas.Length; i++)
             {
-                if (caixas[i].Numero == numeroSelecionado)
+                if (caixas[i].numero == numeroSelecioando)
                 {
-                    caixa.Numero = numeroSelecionado;
+                    caixa.numero = numeroSelecioando;
                     caixas[i] = caixa;
 
                     break;
@@ -31,12 +37,38 @@
         {
             for (int i = 0; i < caixas.Length; i++)
             {
-                if (caixas[i].Numero == numeroSelecionado)
+                if (caixas[i].numero == numeroSelecionado)
                 {
                     caixas[i] = null;
                     break;
                 }
             }
+        }
+
+        public Caixa[] SelecionarTodos()
+        {
+            int quantidadeCaixas = ObterQtdCaixas();
+
+            Caixa[] caixasInseridas = new Caixa[quantidadeCaixas];
+
+            for (int i = 0; i < caixas.Length; i++)
+            {
+                if (caixas[i] != null)
+                    caixasInseridas[i] = caixas[i];
+            }
+
+            return caixasInseridas;
+        }
+
+        public Caixa SelecionarCaixa(int numeroCaixa)
+        {
+            for (int i = 0; i < caixas.Length; i++)
+            {
+                if (caixas[i] != null && numeroCaixa == caixas[i].numero)
+                    return caixas[i];
+            }
+
+            return null;
         }
 
         public bool EtiquetaJaUtilizada(string etiquetaInformada)
@@ -60,7 +92,7 @@
 
             for (int i = 0; i < caixas.Length; i++)
             {
-                if (caixas[i] != null && caixas[i].Numero == numeroCaixa)
+                if (caixas[i] != null && caixas[i].numero == numeroCaixa)
                 {
                     numeroCaixaEncontrado = true;
                     break;
@@ -70,44 +102,8 @@
             return numeroCaixaEncontrado;
         }
 
-        public int ObterPosicaoVazia()
-        {
-            for (int i = 0; i < caixas.Length; i++)
-            {
-                if (caixas[i] == null)
-                    return i;
-            }
-
-            return -1;
-        }
-
-        public Caixa[] SelecionarTodos()
-        {
-            int quantidadeCaixas = ObterQtdCaixas();
-
-            Caixa[] caixasInseridas = new Caixa[quantidadeCaixas];
-
-            for (int i = 0; i < caixas.Length; i++)
-            {
-                if (caixas[i] != null)
-                    caixasInseridas[i] = caixas[i];
-            }
-
-            return caixasInseridas;
-        }
-
-        public Caixa SelecionarCaixa(int numeroCaixa)
-        {
-            for (int i = 0; i < caixas.Length; i++)
-            {
-                if (caixas[i] != null && numeroCaixa == caixas[i].Numero)
-                    return caixas[i];
-            }
-
-            return null;
-        }
-
-        public int ObterQtdCaixas()
+        #region Métodos privados
+        private int ObterQtdCaixas()
         {
             int numeroCaixas = 0;
 
@@ -119,5 +115,17 @@
 
             return numeroCaixas;
         }
+
+        private int ObterPosicaoVazia()
+        {
+            for (int i = 0; i < caixas.Length; i++)
+            {
+                if (caixas[i] == null)
+                    return i;
+            }
+
+            return -1;
+        }
+        #endregion
     }
 }

@@ -1,27 +1,57 @@
-﻿using ClubeLeitura.ConsoleApp.ModuloAmigo;
-using System;
+﻿using System;
 
-namespace ClubeLeitura.ConsoleApp
+namespace ClubeLeitura.ConsoleApp.ModuloAmigo
 {
     public class TelaCadastroAmigo
     {
-        public Notificador notificador;
-        public RepositorioAmigo repositorioAmigo;
+        private readonly Notificador notificador;
+        private readonly RepositorioAmigo repositorioAmigo;
+
+        public TelaCadastroAmigo(RepositorioAmigo repositorioAmigo, Notificador notificador)
+        {
+            this.repositorioAmigo = repositorioAmigo;
+            this.notificador = notificador;
+        }
 
         public string MostrarOpcoes()
-        {            
-            MostrarTitulo("Cadastro de Amigos");
+        {
+            Console.Clear();
+
+            Console.WriteLine("Cadastro de Amigos");
+
+            Console.WriteLine();
 
             Console.WriteLine("Digite 1 para Inserir");
             Console.WriteLine("Digite 2 para Editar");
             Console.WriteLine("Digite 3 para Excluir");
             Console.WriteLine("Digite 4 para Visualizar");
+            Console.WriteLine("Digite 5 para Visualizar Amigos com Multa");
+            Console.WriteLine("Digite 6 para Pagar Multas");
 
             Console.WriteLine("Digite s para sair");
 
             string opcao = Console.ReadLine();
 
             return opcao;
+        }
+
+        public void PagarMulta()
+        {
+            MostrarTitulo("Pagamento de Multas");
+
+            bool temAmigosComMulta = VisualizarAmigosComMulta("Pesquisando");
+
+            if (!temAmigosComMulta)
+            {
+                notificador.ApresentarMensagem("Não há nenhum amigo com multas em aberto", TipoMensagem.Atencao);
+                return;
+            }
+
+            int numeroAmigoComMulta = ObterNumeroAmigo();
+
+            Amigo amigoComMulta = repositorioAmigo.SelecionarAmigo(numeroAmigoComMulta);
+
+            amigoComMulta.PagarMulta();
         }
 
         public void InserirNovoAmigo()
@@ -32,7 +62,7 @@ namespace ClubeLeitura.ConsoleApp
 
             repositorioAmigo.Inserir(novoAmigo);
 
-            notificador.ApresentarMensagem("Amigo cadastrado com sucesso!", TipoMensagemEnum.Sucesso);
+            notificador.ApresentarMensagem("Amigo cadastrado com sucesso!", TipoMensagem.Sucesso);
         }
 
         public void EditarAmigo()
@@ -43,7 +73,7 @@ namespace ClubeLeitura.ConsoleApp
 
             if (temAmigosCadastrados == false)
             {
-                notificador.ApresentarMensagem("Nenhum amigo cadastrado para poder editar.", TipoMensagemEnum.Atencao);
+                notificador.ApresentarMensagem("Nenhum amigo cadastrado para poder editar.", TipoMensagem.Atencao);
                 return;
             }
 
@@ -53,27 +83,9 @@ namespace ClubeLeitura.ConsoleApp
 
             repositorioAmigo.Editar(numeroAmigo, amigoAtualizado);
 
-            notificador.ApresentarMensagem("Amigo editado com sucesso", TipoMensagemEnum.Sucesso);
+            notificador.ApresentarMensagem("Amigo editado com sucesso", TipoMensagem.Sucesso);
         }
 
-        public int ObterNumeroAmigo()
-        {
-            int numeroAmigo;
-            bool numeroAmigoEncontrado;
-
-            do
-            {
-                Console.Write("Digite o número do amigo que deseja selecionar: ");
-                numeroAmigo = Convert.ToInt32(Console.ReadLine());
-
-                numeroAmigoEncontrado = repositorioAmigo.VerificarNumeroAmigoExiste(numeroAmigo);
-
-                if (numeroAmigoEncontrado == false)
-                    notificador.ApresentarMensagem("Número do amigo não encontrado, digite novamente.", TipoMensagemEnum.Atencao);
-
-            } while (numeroAmigoEncontrado == false);
-            return numeroAmigo;
-        }
 
         public void ExcluirAmigo()
         {
@@ -84,7 +96,7 @@ namespace ClubeLeitura.ConsoleApp
             if (temAmigosCadastrados == false)
             {
                 notificador.ApresentarMensagem(
-                    "Nenhum amigo cadastrado para poder excluir", TipoMensagemEnum.Atencao);
+                    "Nenhum amigo cadastrado para poder excluir", TipoMensagem.Atencao);
                 return;
             }
 
@@ -92,7 +104,7 @@ namespace ClubeLeitura.ConsoleApp
 
             repositorioAmigo.Excluir(numeroAmigo);
 
-            notificador.ApresentarMensagem("Amigo excluído com sucesso", TipoMensagemEnum.Sucesso);
+            notificador.ApresentarMensagem("Amigo excluído com sucesso", TipoMensagem.Sucesso);
         }
 
         public bool VisualizarAmigos(string tipo)
@@ -109,7 +121,7 @@ namespace ClubeLeitura.ConsoleApp
             {
                 Amigo a = amigos[i];
 
-                Console.WriteLine("Número: " + a.Numero);
+                Console.WriteLine("Número: " + a.numero);
                 Console.WriteLine("Nome: " + a.Nome);
                 Console.WriteLine("Nome do responsável: " + a.NomeResponsavel);
                 Console.WriteLine("Onde mora: " + a.Endereco);
@@ -120,7 +132,53 @@ namespace ClubeLeitura.ConsoleApp
             return true;
         }
 
-        public Amigo ObterAmigo()
+        public bool VisualizarAmigosComMulta(string tipo)
+        {
+            if (tipo == "Tela")
+                MostrarTitulo("Visualização de Amigos com Multa");
+
+            Amigo[] amigos = repositorioAmigo.SelecionarAmigosComMulta();
+
+            if (amigos.Length == 0)
+                return false;
+
+            for (int i = 0; i < amigos.Length; i++)
+            {
+                Amigo a = amigos[i];
+
+                Console.WriteLine("Número: " + a.numero);
+                Console.WriteLine("Nome: " + a.Nome);
+                Console.WriteLine("Nome do responsável: " + a.NomeResponsavel);
+                Console.WriteLine("Onde mora: " + a.Endereco);
+                Console.WriteLine("Multa: R$" + a.multa.Valor);
+
+                Console.WriteLine();
+            }
+
+            return true;
+        }
+
+        #region Métodos privados
+        private int ObterNumeroAmigo()
+        {
+            int numeroAmigo;
+            bool numeroAmigoEncontrado;
+
+            do
+            {
+                Console.Write("Digite o número do amigo que deseja selecionar: ");
+                numeroAmigo = Convert.ToInt32(Console.ReadLine());
+
+                numeroAmigoEncontrado = repositorioAmigo.VerificarNumeroAmigoExiste(numeroAmigo);
+
+                if (numeroAmigoEncontrado == false)
+                    notificador.ApresentarMensagem("Número do amigo não encontrado, digite novamente.", TipoMensagem.Atencao);
+
+            } while (numeroAmigoEncontrado == false);
+            return numeroAmigo;
+        }
+
+        private Amigo ObterAmigo()
         {
             Console.Write("Digite o nome do amigo: ");
             string nome = Console.ReadLine();
@@ -134,17 +192,12 @@ namespace ClubeLeitura.ConsoleApp
             Console.Write("Digite onde o amigo mora: ");
             string endereco = Console.ReadLine();
 
-            Amigo amigo = new Amigo();
-
-            amigo.Nome = nome;
-            amigo.NomeResponsavel = nomeResponsavel;
-            amigo.Telefone = telefone;
-            amigo.Endereco = endereco;
+            Amigo amigo = new Amigo(nome, nomeResponsavel, telefone, endereco);
 
             return amigo;
         }
 
-        public void MostrarTitulo(string titulo)
+        private void MostrarTitulo(string titulo)
         {
             Console.Clear();
 
@@ -152,9 +205,10 @@ namespace ClubeLeitura.ConsoleApp
 
             Console.WriteLine(titulo);
 
-            Console.Clear();
+            Console.ResetColor();
 
             Console.WriteLine();
         }
+        #endregion
     }
 }

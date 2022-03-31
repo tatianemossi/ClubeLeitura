@@ -1,26 +1,20 @@
-﻿namespace ClubeLeitura.ConsoleApp
+﻿namespace ClubeLeitura.ConsoleApp.ModuloCaixa
 {
     public class Caixa
     {
-        private static int _numero;
-        public int Numero
-        {
-            get { return _numero; }
-            set { _numero = value; }
-        }
+        public int numero;
 
-        private string _cor;
-        public string Cor
-        {
-            get { return _cor; }
-            set { _cor = value; }
-        }
+        private readonly string cor;
+        private readonly string etiqueta;
 
-        private string _etiqueta;
-        public string Etiqueta
+        public string Cor => cor;
+
+        public string Etiqueta => etiqueta;
+
+        public Caixa(string cor, string etiqueta)
         {
-            get { return _etiqueta; }
-            set { _etiqueta = value; }
+            this.cor = cor;
+            this.etiqueta = etiqueta;
         }
     }
 }

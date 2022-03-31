@@ -1,65 +1,70 @@
-﻿using ClubeLeitura.ConsoleApp.ModuloEmprestimo;
+﻿using ClubeLeitura.ConsoleApp.ModuloCaixa;
+using ClubeLeitura.ConsoleApp.ModuloCategoria;
+using ClubeLeitura.ConsoleApp.ModuloEmprestimo;
+using ClubeLeitura.ConsoleApp.ModuloReserva;
 using System;
 
-namespace ClubeLeitura.ConsoleApp
+namespace ClubeLeitura.ConsoleApp.ModuloRevista
 {
     public class Revista
     {
-        private static int _numero;
-        public int Numero
+        public int numero;
+
+        private readonly string colecao;
+        private readonly int edicao;
+        private readonly int ano;
+        public Caixa caixa;
+        public Categoria categoria;
+
+        public Emprestimo[] historicoEmprestimos = new Emprestimo[10];
+        public Reserva[] historicoReservas = new Reserva[10];
+
+        public string Colecao => colecao;
+
+        public int Edicao => edicao;
+
+        public int Ano => ano;
+
+        public Revista(string colecao, int edicao, int ano)
         {
-            get { return _numero; }
-            set { _numero = value; }
+            this.colecao = colecao;
+            this.edicao = edicao;
+            this.ano = ano;
         }
 
-        private string _colecao;
-        public string Colecao
+        public void RegistrarReserva(Reserva reserva)
         {
-            get { return _colecao; }
-            set { _colecao = value; }
+            historicoReservas[ObtemPosicaoReservasVazia()] = reserva;
         }
-
-        private int _edicao;
-        public int Edicao
-        {
-            get { return _edicao; }
-            set { _edicao = value; }
-        }
-
-        private int _ano;
-        public int Ano
-        {
-            get { return _ano; }
-            set { _ano = value; }
-        } 
-
-        private Caixa _caixa;
-        public Caixa Caixa
-        {
-            get { return _caixa; }
-            set { _caixa = value; }
-        }
-
-        private Emprestimo[] _historicoEmprestimos = new Emprestimo[10];
-        public Emprestimo[] HistoricoEmprestimos
-        {
-            get { return _historicoEmprestimos; }
-            set { _historicoEmprestimos = value; }
-        }
-
 
         public void RegistrarEmprestimo(Emprestimo emprestimo)
         {
-            _historicoEmprestimos[ObtemPosicaoVazia()] = emprestimo;
+            historicoEmprestimos[ObtemPosicaoEmprestimosVazia()] = emprestimo;
+        }
+
+        public bool EstaReservada()
+        {
+            bool temReservaEmAberto = false;
+
+            foreach (Reserva reserva in historicoReservas)
+            {
+                if (reserva != null && reserva.estaAberta)
+                {
+                    temReservaEmAberto = true;
+                    break;
+                }
+            }
+
+            return temReservaEmAberto;
         }
 
         public bool EstaEmprestada()
         {
             bool temEmprestimoEmAberto = false;
 
-            foreach (Emprestimo emprestimo in _historicoEmprestimos)
+            foreach (Emprestimo emprestimo in historicoEmprestimos)
             {
-                if (emprestimo != null && emprestimo.EstaAberto)
+                if (emprestimo != null && emprestimo.estaAberto)
                 {
                     temEmprestimoEmAberto = true;
                     break;
@@ -72,13 +77,13 @@ namespace ClubeLeitura.ConsoleApp
         {
             string validacao = "";
 
-            if (string.IsNullOrEmpty(_colecao))
+            if (string.IsNullOrEmpty(Colecao))
                 validacao += "É necessário incluir uma coleção!\n";
 
-            if (_edicao < 0)
+            if (Edicao < 0)
                 validacao += "A edição de uma revista não pode ser menor que zero!\n";
 
-            if (_ano < 0 || _ano > DateTime.Now.Year)
+            if (Ano < 0 || Ano > DateTime.Now.Year)
                 validacao += "O ano da revista precisa ser válido!\n";
 
             if (string.IsNullOrEmpty(validacao))
@@ -87,11 +92,22 @@ namespace ClubeLeitura.ConsoleApp
             return validacao;
         }
 
-        public int ObtemPosicaoVazia()
+        public int ObtemPosicaoReservasVazia()
         {
-            for (int i = 0; i < _historicoEmprestimos.Length; i++)
+            for (int i = 0; i < historicoReservas.Length; i++)
             {
-                if (_historicoEmprestimos[i] == null)
+                if (historicoReservas[i] == null)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        public int ObtemPosicaoEmprestimosVazia()
+        {
+            for (int i = 0; i < historicoEmprestimos.Length; i++)
+            {
+                if (historicoEmprestimos[i] == null)
                     return i;
             }
 

@@ -4,17 +4,17 @@ namespace ClubeLeitura.ConsoleApp
 {
     public class Notificador
     {
-        public void ApresentarMensagem(string mensagem, TipoMensagemEnum TipoMensagemEnum)
+        public void ApresentarMensagem(string mensagem, TipoMensagem TipoMensagemEnum)
         {
             switch (TipoMensagemEnum)
             {
-                case TipoMensagemEnum.Sucesso: 
+                case TipoMensagem.Sucesso: 
                     Console.ForegroundColor = ConsoleColor.Green; 
                     break;
-                case TipoMensagemEnum.Erro:
+                case TipoMensagem.Erro:
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
-                case TipoMensagemEnum.Atencao:
+                case TipoMensagem.Atencao:
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     break;
 
