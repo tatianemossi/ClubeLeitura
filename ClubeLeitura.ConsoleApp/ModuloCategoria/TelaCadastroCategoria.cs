@@ -1,8 +1,9 @@
-﻿using System;
+﻿using ClubeLeitura.ConsoleApp.Compartilhado;
+using System;
 
 namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 {
-    public class TelaCadastroCategoria
+    public class TelaCadastroCategoria : ITelaCadastro<Categoria>
     {
         private readonly RepositorioCategoria repositorioCategoria;
         private readonly Notificador notificador;
@@ -29,22 +30,22 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
             return opcao;
         }
 
-        public void InserirNovaCategoria()
+        public void Inserir()
         {
             MostrarTitulo("Inserindo nova categoria de revista");
 
-            Categoria novaCategoria = ObterCategoria();
+            Categoria novaCategoria = ObterRegistro();
 
             repositorioCategoria.Inserir(novaCategoria);
 
             notificador.ApresentarMensagem("Categoria de Revista inserida com sucesso", TipoMensagem.Sucesso);
         }
 
-        public void EditarCategoria()
+        public void Editar()
         {
             MostrarTitulo("Editando Categoria");
 
-            bool temCategoriasCadastradas = VisualizarCategorias("Pesquisando");
+            bool temCategoriasCadastradas = Visualizar("Pesquisando");
 
             if (temCategoriasCadastradas == false)
             {
@@ -52,20 +53,20 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
                 return;
             }
 
-            int numeroCategoria = ObterNumeroCategoria();
+            int numeroCategoria = ObterNumeroRegistro();
 
-            Categoria categoriaAtualizada = ObterCategoria();
+            Categoria categoriaAtualizada = ObterRegistro();
 
             repositorioCategoria.Editar(numeroCategoria, categoriaAtualizada);
 
             notificador.ApresentarMensagem("Categoria editada com sucesso", TipoMensagem.Sucesso);
         }
 
-        public void ExcluirCategoria()
+        public void Excluir()
         {
             MostrarTitulo("Excluindo Categoria");
 
-            bool temCategoriasCadastradas = VisualizarCategorias("Pesquisando");
+            bool temCategoriasCadastradas = Visualizar("Pesquisando");
 
             if (temCategoriasCadastradas == false)
             {
@@ -74,14 +75,14 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
                 return;
             }
 
-            int numeroCategoria = ObterNumeroCategoria();
+            int numeroCategoria = ObterNumeroRegistro();
 
             repositorioCategoria.Excluir(numeroCategoria);
 
             notificador.ApresentarMensagem("Revista excluída com sucesso", TipoMensagem.Sucesso);
         }
 
-        public bool VisualizarCategorias(string tipo)
+        public bool Visualizar(string tipo)
         {
             if (tipo == "Tela")
                 MostrarTitulo("Visualização de Categorias");
@@ -105,8 +106,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
             return true;
         }
 
-        #region Métodos privados
-        private int ObterNumeroCategoria()
+        public int ObterNumeroRegistro()
         {
             int numeroCategoria;
             bool numeroCadastroEncontrado;
@@ -126,7 +126,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
             return numeroCategoria;
         }
 
-        private Categoria ObterCategoria()
+        public Categoria ObterRegistro()
         {
             Console.Write("Digite o nome da categoria: ");
             string nome = Console.ReadLine();
@@ -151,6 +151,5 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 
             Console.WriteLine();
         }
-        #endregion
     }
 }

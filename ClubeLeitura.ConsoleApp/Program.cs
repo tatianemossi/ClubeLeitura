@@ -79,19 +79,19 @@ namespace ClubeLeitura.ConsoleApp
 
                     if (opcao == "1")
                     {
-                        telaCadastroCaixa.InserirNovaCaixa();
+                        telaCadastroCaixa.Inserir();
                     }
                     else if (opcao == "2")
                     {
-                        telaCadastroCaixa.EditarCaixa();
+                        telaCadastroCaixa.Editar();
                     }
                     else if (opcao == "3")
                     {
-                        telaCadastroCaixa.ExcluirCaixa();
+                        telaCadastroCaixa.Excluir();
                     }
                     else if (opcao == "4")
                     {
-                        bool temCaixaCadastrada = telaCadastroCaixa.VisualizarCaixas("Tela");
+                        bool temCaixaCadastrada = telaCadastroCaixa.Visualizar("Tela");
 
                         if (temCaixaCadastrada == false)
                             notificador.ApresentarMensagem("Nenhuma caixa cadastrada", TipoMensagem.Atencao);
@@ -105,19 +105,19 @@ namespace ClubeLeitura.ConsoleApp
 
                     if (opcao == "1")
                     {
-                        telaCadastroCategoria.InserirNovaCategoria();
+                        telaCadastroCategoria.Inserir();
                     }
                     else if (opcao == "2")
                     {
-                        telaCadastroCategoria.EditarCategoria();
+                        telaCadastroCategoria.Editar();
                     }
                     else if (opcao == "3")
                     {
-                        telaCadastroCategoria.ExcluirCategoria();
+                        telaCadastroCategoria.Excluir();
                     }
                     else if (opcao == "4")
                     {
-                        bool temCategoriasCadastradas = telaCadastroCategoria.VisualizarCategorias("Tela");
+                        bool temCategoriasCadastradas = telaCadastroCategoria.Visualizar("Tela");
 
                         if (!temCategoriasCadastradas)
                             notificador.ApresentarMensagem("Nenhuma categoria cadastrada.", TipoMensagem.Atencao);
@@ -131,19 +131,19 @@ namespace ClubeLeitura.ConsoleApp
 
                     if (opcao == "1")
                     {
-                        telaCadastroRevista.InserirNovaRevista();
+                        telaCadastroRevista.Inserir();
                     }
                     else if (opcao == "2")
                     {
-                        telaCadastroRevista.EditarRevista();
+                        telaCadastroRevista.Editar();
                     }
                     else if (opcao == "3")
                     {
-                        telaCadastroRevista.ExcluirRevista();
+                        telaCadastroRevista.Excluir();
                     }
                     else if (opcao == "4")
                     {
-                        bool temRevistaCadastrada = telaCadastroRevista.VisualizarRevistas("Tela");
+                        bool temRevistaCadastrada = telaCadastroRevista.Visualizar("Tela");
 
                         if (!temRevistaCadastrada)
                             notificador.ApresentarMensagem("Nenhuma revista cadastrada", TipoMensagem.Atencao);
@@ -157,19 +157,19 @@ namespace ClubeLeitura.ConsoleApp
 
                     if (opcao == "1")
                     {
-                        telaCadastroAmigo.InserirNovoAmigo();
+                        telaCadastroAmigo.Inserir();
                     }
                     else if (opcao == "2")
                     {
-                        telaCadastroAmigo.EditarAmigo();
+                        telaCadastroAmigo.Editar();
                     }
                     else if (opcao == "3")
                     {
-                        telaCadastroAmigo.ExcluirAmigo();
+                        telaCadastroAmigo.Excluir();
                     }
                     else if (opcao == "4")
                     {
-                        bool temAmigoCadastrado = telaCadastroAmigo.VisualizarAmigos("Tela");
+                        bool temAmigoCadastrado = telaCadastroAmigo.Visualizar("Tela");
 
                         if (!temAmigoCadastrado)
                             notificador.ApresentarMensagem("Nenhum amigo cadastrado.", TipoMensagem.Atencao);
@@ -196,19 +196,19 @@ namespace ClubeLeitura.ConsoleApp
 
                     if (opcao == "1")
                     {
-                        telaCadastroEmprestimo.InserirNovoEmprestimo();
+                        telaCadastroEmprestimo.Inserir();
                     }
                     else if (opcao == "2")
                     {
-                        telaCadastroEmprestimo.EditarEmprestimo();
+                        telaCadastroEmprestimo.Editar();
                     }
                     else if (opcao == "3")
                     {
-                        telaCadastroEmprestimo.ExcluirEmprestimo();
+                        telaCadastroEmprestimo.Excluir();
                     }
                     else if (opcao == "4")
                     {
-                        bool temEmprestimoCadastrado = telaCadastroEmprestimo.VisualizarEmprestimos("Tela");
+                        bool temEmprestimoCadastrado = telaCadastroEmprestimo.Visualizar("Tela");
 
                         if (!temEmprestimoCadastrado)
                             notificador.ApresentarMensagem("Nenhum empréstimo cadastrado.", TipoMensagem.Atencao);

@@ -165,7 +165,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
             return true;
         }
 
-        private Reserva ObtemReserva(Amigo amigoSelecionado, Revista revistaSelecionada)
+        public Reserva ObtemReserva(Amigo amigoSelecionado, Revista revistaSelecionada)
         {
             Reserva novaReserva = new Reserva();
 
@@ -197,7 +197,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
         public Amigo ObtemAmigo()
         {
-            bool temAmigosDisponiveis = telaCadastroAmigo.VisualizarAmigos("Pesquisando");
+            bool temAmigosDisponiveis = telaCadastroAmigo.Visualizar("Pesquisando");
 
             if (!temAmigosDisponiveis)
             {
@@ -217,7 +217,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
         public Revista ObtemRevista()
         {
-            bool temRevistasDisponiveis = telaCadastroRevista.VisualizarRevistas("Pesquisando");
+            bool temRevistasDisponiveis = telaCadastroRevista.Visualizar("Pesquisando");
 
             if (!temRevistasDisponiveis)
             {
@@ -230,7 +230,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
             Console.WriteLine();
 
-            Revista revistaSelecionada = repositorioRevista.SelecionarRevista(numeroRevistaEmprestimo);
+            Revista revistaSelecionada = repositorioRevista.ObterRegistro(numeroRevistaEmprestimo);
 
             return revistaSelecionada;
         }
