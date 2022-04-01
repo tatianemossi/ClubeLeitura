@@ -9,7 +9,6 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
 
         public RepositorioCaixa(int qtdCaixas) : base(qtdCaixas)
         {
-            caixas = new Caixa[qtdCaixas];
         }        
 
         #region Métodos Específicos da Classe

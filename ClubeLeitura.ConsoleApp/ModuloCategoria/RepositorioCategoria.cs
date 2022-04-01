@@ -8,7 +8,6 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 
         public RepositorioCategoria(int qtdCategorias) : base(qtdCategorias)
         {
-            categorias = new Categoria[qtdCategorias];
         }       
     }
 }

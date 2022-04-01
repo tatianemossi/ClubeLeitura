@@ -8,7 +8,6 @@ namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
 
         public RepositorioEmprestimo(int qtdEmprestimos) : base(qtdEmprestimos)
         {
-            emprestimos = new Emprestimo[qtdEmprestimos];
         }             
 
         #region Métodos Específicos da Classe

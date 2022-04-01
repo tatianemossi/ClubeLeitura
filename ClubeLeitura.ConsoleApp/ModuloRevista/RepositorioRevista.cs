@@ -9,7 +9,6 @@ namespace ClubeLeitura.ConsoleApp.ModuloRevista
 
         public RepositorioRevista(int qtdRevistas) : base(qtdRevistas)
         {
-            revistas = new Revista[qtdRevistas];
         }
 
         public string InserirRevista(Revista revista)

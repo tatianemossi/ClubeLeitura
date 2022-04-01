@@ -2,7 +2,7 @@
 {
     public class RepositorioBase<T> where T : EntidadeBase
     {
-        public int numero;
+        public int contadorNumero;
         protected readonly T[] itens;
 
         public RepositorioBase (int qtdRegistros)
@@ -12,7 +12,7 @@
 
         public void Inserir(T item)
         {
-            item.numero = ++numero;
+            item.numero = ++contadorNumero;
 
             itens[ObterPosicaoVazia()] = item;
         }
@@ -114,7 +114,7 @@
 
         public int ObterNumeroRegistro()
         {
-            return ++numero;
+            return ++contadorNumero;
         }
     }
 }

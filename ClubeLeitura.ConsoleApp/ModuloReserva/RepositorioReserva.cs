@@ -8,7 +8,6 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
         public RepositorioReserva(int qtdReservas) : base(qtdReservas)
         {
-            reservas = new Reserva[qtdReservas];
         }        
 
         #region Métodos Específicos da Classe
