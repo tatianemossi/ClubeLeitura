@@ -6,7 +6,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
     {
         private readonly Categoria[] categorias;
 
-        public RepositorioCategoria(int qtdCategorias)
+        public RepositorioCategoria(int qtdCategorias) : base(qtdCategorias)
         {
             categorias = new Categoria[qtdCategorias];
         }       

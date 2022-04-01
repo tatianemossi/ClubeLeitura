@@ -6,7 +6,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
     {
         private readonly Reserva[] reservas;
 
-        public RepositorioReserva(int qtdReservas)
+        public RepositorioReserva(int qtdReservas) : base(qtdReservas)
         {
             reservas = new Reserva[qtdReservas];
         }        

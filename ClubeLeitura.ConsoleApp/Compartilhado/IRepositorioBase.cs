@@ -3,7 +3,12 @@
     public class RepositorioBase<T> where T : EntidadeBase
     {
         public int numero;
-        public T[] itens;
+        protected readonly T[] itens;
+
+        public RepositorioBase (int qtdRegistros)
+        {
+            itens = new T[qtdRegistros];
+        }
 
         public void Inserir(T item)
         {

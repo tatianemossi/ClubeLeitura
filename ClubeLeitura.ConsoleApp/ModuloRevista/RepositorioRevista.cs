@@ -7,7 +7,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloRevista
         private int numeroRevista;
         private readonly Revista[] revistas;
 
-        public RepositorioRevista(int qtdRevistas)
+        public RepositorioRevista(int qtdRevistas) : base(qtdRevistas)
         {
             revistas = new Revista[qtdRevistas];
         }

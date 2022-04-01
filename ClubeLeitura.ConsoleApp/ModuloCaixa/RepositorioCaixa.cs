@@ -7,7 +7,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
     {
         private readonly Caixa[] caixas;
 
-        public RepositorioCaixa(int qtdCaixas)
+        public RepositorioCaixa(int qtdCaixas) : base(qtdCaixas)
         {
             caixas = new Caixa[qtdCaixas];
         }        

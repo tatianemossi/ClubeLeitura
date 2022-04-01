@@ -7,9 +7,9 @@ namespace ClubeLeitura.ConsoleApp.ModuloAmigo
     {
         public Amigo[] amigos;
 
-        public RepositorioAmigo(int quantidade)
+        public RepositorioAmigo(int quantidade) : base(quantidade)
         {
-            itens = new Amigo[quantidade];
+            amigos = new Amigo[quantidade];
         }
 
         #region Métodos Específicos da Classe

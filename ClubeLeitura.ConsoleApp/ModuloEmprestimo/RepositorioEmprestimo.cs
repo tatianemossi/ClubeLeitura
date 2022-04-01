@@ -6,7 +6,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
     {
         private readonly Emprestimo[] emprestimos;
 
-        public RepositorioEmprestimo(int qtdEmprestimos)
+        public RepositorioEmprestimo(int qtdEmprestimos) : base(qtdEmprestimos)
         {
             emprestimos = new Emprestimo[qtdEmprestimos];
         }             
