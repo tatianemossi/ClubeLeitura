@@ -5,7 +5,7 @@ using System;
 
 namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
 {
-    public class TelaCadastroEmprestimo : ITelaCadastro<Emprestimo>
+    public class TelaCadastroEmprestimo : ITelaCadastroBase<Emprestimo>, ITelaCadastroEditarExcluirBase
     {
         private readonly Notificador notificador;
         private readonly RepositorioEmprestimo repositorioEmprestimo;

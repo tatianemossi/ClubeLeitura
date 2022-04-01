@@ -3,7 +3,7 @@ using System;
 
 namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 {
-    public class TelaCadastroCategoria : ITelaCadastro<Categoria>
+    public class TelaCadastroCategoria : ITelaCadastroBase<Categoria>, ITelaCadastroEditarExcluirBase
     {
         private readonly RepositorioCategoria repositorioCategoria;
         private readonly Notificador notificador;

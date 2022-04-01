@@ -1,14 +1,10 @@
 ﻿namespace ClubeLeitura.ConsoleApp.Compartilhado
 {
-    public interface ITelaCadastro<T> where T : EntidadeBase
+    public interface ITelaCadastroBase<T> where T : EntidadeBase
     {
         string MostrarOpcoes();
 
-        void Inserir();
-
-        void Editar();
-
-        void Excluir();
+        void Inserir();      
 
         bool Visualizar(string tipo);
 

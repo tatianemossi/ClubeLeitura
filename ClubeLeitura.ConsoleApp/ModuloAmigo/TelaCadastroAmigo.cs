@@ -3,7 +3,7 @@ using System;
 
 namespace ClubeLeitura.ConsoleApp.ModuloAmigo
 {
-    public class TelaCadastroAmigo : ITelaCadastro<Amigo>
+    public class TelaCadastroAmigo : ITelaCadastroBase<Amigo>, ITelaCadastroEditarExcluirBase
     {
         private readonly Notificador notificador;
         private readonly RepositorioAmigo repositorioAmigo;

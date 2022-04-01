@@ -5,7 +5,7 @@ using System;
 
 namespace ClubeLeitura.ConsoleApp.ModuloRevista
 {
-    public class TelaCadastroRevista : ITelaCadastro<Revista>
+    public class TelaCadastroRevista : ITelaCadastroBase<Revista>, ITelaCadastroEditarExcluirBase
     {
         private readonly TelaCadastroCategoria telaCadastroCategoria;
         private readonly RepositorioCategoria repositorioCategoria;
@@ -66,7 +66,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloRevista
             novaRevista.caixa = caixaSelecionada;
             novaRevista.categoria = categoriaSelecionada;
 
-            string statusValidacao = repositorioRevista.Inserir(novaRevista);
+            string statusValidacao = repositorioRevista.InserirRevista(novaRevista);
 
             if (statusValidacao != "REGISTRO_VALIDO")
                 notificador.ApresentarMensagem(statusValidacao, TipoMensagem.Erro);
@@ -179,7 +179,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloRevista
 
             Console.WriteLine();
 
-            Categoria categoriaSelecionada = repositorioCategoria.SelecionarCategoria(numCategoriaSelecionada);
+            Categoria categoriaSelecionada = repositorioCategoria.ObterRegistro(numCategoriaSelecionada);
 
             return categoriaSelecionada;
         }
