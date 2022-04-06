@@ -2,30 +2,10 @@
 
 namespace ClubeLeitura.ConsoleApp.ModuloRevista
 {
-    public class RepositorioRevista : RepositorioBase<Revista>
+    public class RepositorioRevista : RepositorioBase
     {
-        private int numeroRevista;
-        private readonly Revista[] revistas;
-
-        public RepositorioRevista(int qtdRevistas) : base(qtdRevistas)
+        public RepositorioRevista(int qtdRegistros) : base(qtdRegistros)
         {
         }
-
-        public string InserirRevista(Revista revista)
-        {
-            string validacao = revista.Validar();
-
-            if (validacao != "REGISTRO_VALIDO")
-                return validacao;
-
-            revista.numero = ++numeroRevista;
-
-            int posicaoVazia = ObterPosicaoVazia();
-
-            revistas[posicaoVazia] = revista;
-
-            return validacao;
-        }
-        
     }
 }

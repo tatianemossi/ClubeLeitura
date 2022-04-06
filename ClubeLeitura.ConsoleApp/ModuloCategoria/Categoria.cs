@@ -1,5 +1,6 @@
 ﻿using ClubeLeitura.ConsoleApp.Compartilhado;
 using ClubeLeitura.ConsoleApp.ModuloRevista;
+
 namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 {
     public class Categoria : EntidadeBase
@@ -17,6 +18,11 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
         {
             this.nome = nome;
             this.diasEmprestimo = diasEmprestimo;
+        }
+
+        public override string Validar()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -2,26 +2,23 @@
 
 namespace ClubeLeitura.ConsoleApp.ModuloReserva
 {
-    public class RepositorioReserva : RepositorioBase<Reserva>
+    public class RepositorioReserva : RepositorioBase
     {
-        private readonly Reserva[] reservas;
-
         public RepositorioReserva(int qtdReservas) : base(qtdReservas)
         {
-        }        
+        }
 
-        #region Métodos Específicos da Classe
-        public int ObterQtdReservasEmAberto()
+        public override string Inserir(EntidadeBase reserva)
         {
-            int numeroReservas = 0;
+            Reserva r = (Reserva)reserva;
 
-            for (int i = 0; i < reservas.Length; i++)
-            {
-                if (reservas[i] != null && reservas[i].estaAberta)
-                    numeroReservas++;
-            }
+            r.numero = ++contadorNumero;
 
-            return numeroReservas;
+            r.Abrir();
+
+            registros[ObterPosicaoVazia()] = reserva;
+
+            return "REGISTRO_VALIDO";
         }
 
         public Reserva[] SelecionarReservasEmAberto()
@@ -32,15 +29,31 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
             for (int i = 0; i < reservasInseridas.Length; i++)
             {
-                if (reservas[i] != null && reservas[i].estaAberta)
+                Reserva r = (Reserva)registros[i];
+
+                if (r != null && r.estaAberta)
                 {
-                    reservasInseridas[j] = reservas[i];
+                    reservasInseridas[j] = r;
                     j++;
                 }
             }
 
             return reservasInseridas;
         }
-        #endregion
+
+        public int ObterQtdReservasEmAberto()
+        {
+            int numeroReservas = 0;
+
+            for (int i = 0; i < registros.Length; i++)
+            {
+                Reserva r = (Reserva)registros[i];
+
+                if (r != null && r.estaAberta)
+                    numeroReservas++;
+            }
+
+            return numeroReservas;
+        }
     }
 }

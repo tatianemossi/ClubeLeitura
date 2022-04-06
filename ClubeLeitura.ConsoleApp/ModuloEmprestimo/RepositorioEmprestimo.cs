@@ -2,15 +2,27 @@
 
 namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
 {
-    public class RepositorioEmprestimo : RepositorioBase<Emprestimo>
+    public class RepositorioEmprestimo : RepositorioBase
     {
-        private readonly Emprestimo[] emprestimos;
-
         public RepositorioEmprestimo(int qtdEmprestimos) : base(qtdEmprestimos)
         {
-        }             
+        }
 
-        #region Métodos Específicos da Classe
+        public override string Inserir(EntidadeBase emprestimo)
+        {
+            Emprestimo e = (Emprestimo)emprestimo;
+            e.numero = ++contadorNumero;
+
+            e.Abrir();
+
+            e.revista.RegistrarEmprestimo(e);
+            e.amigo.RegistrarEmprestimo(e);
+
+            registros[ObterPosicaoVazia()] = e;
+
+            return "REGISTRO_VALIDO";
+        }
+
         public bool RegistrarDevolucao(Emprestimo emprestimo)
         {
             emprestimo.Fechar();
@@ -20,15 +32,17 @@ namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
 
         public Emprestimo[] SelecionarEmprestimosAbertos()
         {
-            Emprestimo[] emprestimosAbertos = new Emprestimo[ObterQuantidadeRegistros()];
+            Emprestimo[] emprestimosAbertos = new Emprestimo[ObterQtdEmprestimosAbertos()];
 
             int j = 0;
 
-            for (int i = 0; i < emprestimos.Length; i++)
+            for (int i = 0; i < registros.Length; i++)
             {
-                if (emprestimos[i] != null && emprestimos[i].estaAberto)
+                Emprestimo e = (Emprestimo)registros[i];
+
+                if (e != null && e.estaAberto)
                 {
-                    emprestimosAbertos[j] = emprestimos[i];
+                    emprestimosAbertos[j] = e;
                     j++;
                 }
             }
@@ -40,15 +54,15 @@ namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
         {
             int numeroEmprestimos = 0;
 
-            for (int i = 0; i < emprestimos.Length; i++)
+            for (int i = 0; i < registros.Length; i++)
             {
-                if (emprestimos[i] != null && emprestimos[i].estaAberto)
+                Emprestimo e = (Emprestimo)registros[i];
+
+                if (e != null && e.estaAberto)
                     numeroEmprestimos++;
             }
 
             return numeroEmprestimos;
         }
-
-        #endregion
     }
 }

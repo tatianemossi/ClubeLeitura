@@ -3,21 +3,21 @@ using ClubeLeitura.ConsoleApp.Compartilhado;
 
 namespace ClubeLeitura.ConsoleApp.ModuloCaixa
 {
-    public class RepositorioCaixa : RepositorioBase<Caixa>
+    public class RepositorioCaixa : RepositorioBase
     {
-        private readonly Caixa[] caixas;
-
         public RepositorioCaixa(int qtdCaixas) : base(qtdCaixas)
         {
-        }        
+        }
 
-        #region Métodos Específicos da Classe
         public bool EtiquetaJaUtilizada(string etiquetaInformada)
         {
             bool etiquetaJaUtilizada = false;
-            for (int i = 0; i < caixas.Length; i++)
+
+            for (int i = 0; i < registros.Length; i++)
             {
-                if (caixas[i] != null && caixas[i].Etiqueta == etiquetaInformada)
+                Caixa c = (Caixa)registros[i];
+
+                if (registros[i] != null && c.Etiqueta == etiquetaInformada)
                 {
                     etiquetaJaUtilizada = true;
                     break;
@@ -26,6 +26,5 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
 
             return etiquetaJaUtilizada;
         }
-        #endregion
     }
 }

@@ -2,12 +2,10 @@
 
 namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 {
-    public class RepositorioCategoria : RepositorioBase<Categoria>
+    public class RepositorioCategoria : RepositorioBase
     {
-        private readonly Categoria[] categorias;
-
         public RepositorioCategoria(int qtdCategorias) : base(qtdCategorias)
         {
-        }       
+        }
     }
 }

@@ -12,12 +12,21 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
         public DateTime dataInicialReserva;
         public bool estaAberta;
 
+        public Reserva(Amigo amigo, Revista revista)
+        {
+            this.amigo = amigo;
+            this.revista = revista;
+        }
+
         public void Abrir()
         {
             if (!estaAberta)
             {
                 estaAberta = true;
                 dataInicialReserva = DateTime.Today;
+
+                amigo.RegistrarReserva(this);
+                revista.RegistrarReserva(this);
             }
         }
 
@@ -35,6 +44,11 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
                 estaAberta = false;
 
             return ultrapassouDataReserva;
+        }
+
+        public override string Validar()
+        {
+            throw new NotImplementedException();
         }
     }
 }

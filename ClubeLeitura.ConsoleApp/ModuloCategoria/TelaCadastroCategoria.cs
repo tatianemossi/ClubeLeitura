@@ -3,49 +3,37 @@ using System;
 
 namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 {
-    public class TelaCadastroCategoria : ITelaCadastroBase<Categoria>, ITelaCadastroEditarExcluirBase
+    public class TelaCadastroCategoria : TelaBase, ICadastroBasico
     {
         private readonly RepositorioCategoria repositorioCategoria;
         private readonly Notificador notificador;
 
         public TelaCadastroCategoria(RepositorioCategoria repositorioCategoria, Notificador notificador)
+            : base("Cadastro de Categorias de Revista")
         {
             this.repositorioCategoria = repositorioCategoria;
             this.notificador = notificador;
         }
 
-        public string MostrarOpcoes()
-        {
-            MostrarTitulo("Cadastro de Categorias de Revistas");
-
-            Console.WriteLine("Digite 1 para Inserir");
-            Console.WriteLine("Digite 2 para Editar");
-            Console.WriteLine("Digite 3 para Excluir");
-            Console.WriteLine("Digite 4 para Visualizar");
-
-            Console.WriteLine("Digite s para sair");
-
-            string opcao = Console.ReadLine();
-
-            return opcao;
-        }
-
-        public void Inserir()
+        public void InserirRegistro()
         {
             MostrarTitulo("Inserindo nova categoria de revista");
 
-            Categoria novaCategoria = ObterRegistro();
+            Categoria novaCategoria = ObterCategoria();
 
-            repositorioCategoria.Inserir(novaCategoria);
+            string statusValidacao = repositorioCategoria.Inserir(novaCategoria);
 
-            notificador.ApresentarMensagem("Categoria de Revista inserida com sucesso", TipoMensagem.Sucesso);
+            if (statusValidacao == "REGISTRO_VALIDO")
+                notificador.ApresentarMensagem("Categoria de Revista cadastrada com sucesso!", TipoMensagem.Sucesso);
+            else
+                notificador.ApresentarMensagem(statusValidacao, TipoMensagem.Erro);
         }
 
-        public void Editar()
+        public void EditarRegistro()
         {
             MostrarTitulo("Editando Categoria");
 
-            bool temCategoriasCadastradas = Visualizar("Pesquisando");
+            bool temCategoriasCadastradas = VisualizarRegistros("Pesquisando");
 
             if (temCategoriasCadastradas == false)
             {
@@ -53,20 +41,20 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
                 return;
             }
 
-            int numeroCategoria = ObterNumeroRegistro();
+            int numeroCategoria = ObterNumeroCategoria();
 
-            Categoria categoriaAtualizada = ObterRegistro();
+            Categoria categoriaAtualizada = ObterCategoria();
 
             repositorioCategoria.Editar(numeroCategoria, categoriaAtualizada);
 
             notificador.ApresentarMensagem("Categoria editada com sucesso", TipoMensagem.Sucesso);
         }
 
-        public void Excluir()
+        public void ExcluirRegistro()
         {
             MostrarTitulo("Excluindo Categoria");
 
-            bool temCategoriasCadastradas = Visualizar("Pesquisando");
+            bool temCategoriasCadastradas = VisualizarRegistros("Pesquisando");
 
             if (temCategoriasCadastradas == false)
             {
@@ -75,26 +63,26 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
                 return;
             }
 
-            int numeroCategoria = ObterNumeroRegistro();
+            int numeroCategoria = ObterNumeroCategoria();
 
             repositorioCategoria.Excluir(numeroCategoria);
 
             notificador.ApresentarMensagem("Revista excluída com sucesso", TipoMensagem.Sucesso);
         }
 
-        public bool Visualizar(string tipo)
+        public bool VisualizarRegistros(string tipo)
         {
             if (tipo == "Tela")
                 MostrarTitulo("Visualização de Categorias");
 
-            Categoria[] categorias = repositorioCategoria.ObterTodosRegistros();
+            EntidadeBase[] categorias = repositorioCategoria.SelecionarTodos();
 
             if (categorias.Length == 0)
                 return false;
 
             for (int i = 0; i < categorias.Length; i++)
             {
-                Categoria categoria = categorias[i];
+                Categoria categoria = (Categoria)categorias[i];
 
                 Console.WriteLine("Número: " + categoria.numero);
                 Console.WriteLine("Tipo de Categoria: " + categoria.Nome);
@@ -106,7 +94,8 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
             return true;
         }
 
-        public int ObterNumeroRegistro()
+        #region Métodos privados
+        private int ObterNumeroCategoria()
         {
             int numeroCategoria;
             bool numeroCadastroEncontrado;
@@ -116,7 +105,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
                 Console.Write("Digite o número da categoria que deseja selecionar: ");
                 numeroCategoria = Convert.ToInt32(Console.ReadLine());
 
-                numeroCadastroEncontrado = repositorioCategoria.ExisteNumeroRegistro(numeroCategoria);
+                numeroCadastroEncontrado = repositorioCategoria.VerificarNumeroRegistroExiste(numeroCategoria);
 
                 if (numeroCadastroEncontrado == false)
                     notificador.ApresentarMensagem("Número de cadastro não encontrado, digite novamente", TipoMensagem.Atencao);
@@ -126,7 +115,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
             return numeroCategoria;
         }
 
-        public Categoria ObterRegistro()
+        private Categoria ObterCategoria()
         {
             Console.Write("Digite o nome da categoria: ");
             string nome = Console.ReadLine();
@@ -138,18 +127,6 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 
             return novaCategoria;
         }
-
-        public void MostrarTitulo(string titulo)
-        {
-            Console.Clear();
-
-            Console.ForegroundColor = ConsoleColor.Magenta;
-
-            Console.WriteLine(titulo);
-
-            Console.ResetColor();
-
-            Console.WriteLine();
-        }
+        #endregion
     }
 }

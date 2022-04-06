@@ -1,4 +1,5 @@
-﻿using ClubeLeitura.ConsoleApp.ModuloAmigo;
+﻿using ClubeLeitura.ConsoleApp.Compartilhado;
+using ClubeLeitura.ConsoleApp.ModuloAmigo;
 using ClubeLeitura.ConsoleApp.ModuloEmprestimo;
 using ClubeLeitura.ConsoleApp.ModuloRevista;
 using System;
@@ -6,7 +7,7 @@ using System;
 
 namespace ClubeLeitura.ConsoleApp.ModuloReserva
 {
-    public class TelaCadastroReserva
+    public class TelaCadastroReserva : TelaBase
     {
         private readonly Notificador notificador;
         private readonly RepositorioReserva repositorioReserva;
@@ -23,7 +24,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
             RepositorioRevista repositorioRevista,
             TelaCadastroAmigo telaCadastroAmigo,
             TelaCadastroRevista telaCadastroRevista,
-            RepositorioEmprestimo repositorioEmprestimo)
+            RepositorioEmprestimo repositorioEmprestimo) : base("Cadastro de Reservas")
         {
             this.notificador = notificador;
             this.repositorioReserva = repositorioReserva;
@@ -34,9 +35,9 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
             this.repositorioEmprestimo = repositorioEmprestimo;
         }
 
-        public string MostrarOpcoes()
+        public override string MostrarOpcoes()
         {
-            MostrarTitulo("Cadastro de Reservas");
+            MostrarTitulo(Titulo);
 
             Console.WriteLine("Digite 1 para Registrar Reserva");
             Console.WriteLine("Digite 2 para Visualizar");
@@ -50,11 +51,18 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
             return opcao;
         }
 
-        public void InserirNovaReserva()
+        public void RegistrarNovaReserva()
         {
             MostrarTitulo("Inserindo nova Reserva");
 
+            // Validação do Amigo
             Amigo amigoSelecionado = ObtemAmigo();
+
+            if (amigoSelecionado == null)
+            {
+                notificador.ApresentarMensagem("Nenhum amigo selecionado", TipoMensagem.Erro);
+                return;
+            }
 
             if (amigoSelecionado.TemMultaEmAberto())
             {
@@ -91,9 +99,12 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
             Reserva novaReserva = ObtemReserva(amigoSelecionado, revistaSelecionada);
 
-            repositorioReserva.Inserir(novaReserva);
+            string statusValidacao = repositorioReserva.Inserir(novaReserva);
 
-            notificador.ApresentarMensagem("Reserva inserida com sucesso", TipoMensagem.Sucesso);
+            if (statusValidacao == "REGISTRO_VALIDO")
+                notificador.ApresentarMensagem("Reserva cadastrada com sucesso!", TipoMensagem.Sucesso);
+            else
+                notificador.ApresentarMensagem(statusValidacao, TipoMensagem.Erro);
         }
 
         public void RegistrarNovoEmprestimo()
@@ -109,9 +120,12 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
             novoEmprestimo.revista = reservaParaEmprestimo.revista;
             novoEmprestimo.amigo = reservaParaEmprestimo.amigo;
 
-            repositorioEmprestimo.Inserir(novoEmprestimo);
+            string statusValidacao = repositorioEmprestimo.Inserir(novoEmprestimo);
 
-            notificador.ApresentarMensagem("Empréstimo registrado com sucesso", TipoMensagem.Sucesso);
+            if (statusValidacao == "REGISTRO_VALIDO")
+                notificador.ApresentarMensagem("Empréstimo cadastrado com sucesso", TipoMensagem.Sucesso);
+            else
+                notificador.ApresentarMensagem(statusValidacao, TipoMensagem.Erro);
         }
 
         public bool VisualizarReservas(string tipo)
@@ -119,14 +133,14 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
             if (tipo == "Tela")
                 MostrarTitulo("Visualização de Reservas");
 
-            Reserva[] reservas = repositorioReserva.ObterTodosRegistros();
+            EntidadeBase[] reservas = repositorioReserva.SelecionarTodos();
 
             if (reservas.Length == 0)
                 return false;
 
             for (int i = 0; i < reservas.Length; i++)
             {
-                Reserva reserva = reservas[i];
+                Reserva reserva = (Reserva)reservas[i];
 
                 string statusReserva = reserva.estaAberta ? "Aberta" : "Fechada";
 
@@ -165,12 +179,9 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
             return true;
         }
 
-        public Reserva ObtemReserva(Amigo amigoSelecionado, Revista revistaSelecionada)
+        private Reserva ObtemReserva(Amigo amigoSelecionado, Revista revistaSelecionada)
         {
-            Reserva novaReserva = new Reserva();
-
-            novaReserva.amigo = amigoSelecionado;
-            novaReserva.revista = revistaSelecionada;
+            Reserva novaReserva = new Reserva(amigoSelecionado, revistaSelecionada);
 
             return novaReserva;
         }
@@ -190,14 +201,14 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
             Console.WriteLine();
 
-            Reserva reservaSelecionada = repositorioReserva.ObterRegistro(numeroReserva);
+            Reserva reservaSelecionada = (Reserva)repositorioReserva.SelecionarRegistro(numeroReserva);
 
             return reservaSelecionada;
         }
 
         public Amigo ObtemAmigo()
         {
-            bool temAmigosDisponiveis = telaCadastroAmigo.Visualizar("Pesquisando");
+            bool temAmigosDisponiveis = telaCadastroAmigo.VisualizarRegistros("Pesquisando");
 
             if (!temAmigosDisponiveis)
             {
@@ -210,14 +221,14 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
             Console.WriteLine();
 
-            Amigo amigoSelecionado = repositorioAmigo.ObterRegistro(numeroAmigoEmprestimo);
+            Amigo amigoSelecionado = (Amigo)repositorioAmigo.SelecionarRegistro(numeroAmigoEmprestimo);
 
             return amigoSelecionado;
         }
 
         public Revista ObtemRevista()
         {
-            bool temRevistasDisponiveis = telaCadastroRevista.Visualizar("Pesquisando");
+            bool temRevistasDisponiveis = telaCadastroRevista.VisualizarRegistros("Pesquisando");
 
             if (!temRevistasDisponiveis)
             {
@@ -230,22 +241,9 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
             Console.WriteLine();
 
-            Revista revistaSelecionada = repositorioRevista.ObterRegistro(numeroRevistaEmprestimo);
+            Revista revistaSelecionada = (Revista)repositorioRevista.SelecionarRegistro(numeroRevistaEmprestimo);
 
             return revistaSelecionada;
-        }
-
-        public void MostrarTitulo(string titulo)
-        {
-            Console.Clear();
-
-            Console.ForegroundColor = ConsoleColor.Magenta;
-
-            Console.WriteLine(titulo);
-
-            Console.ResetColor();
-
-            Console.WriteLine();
         }
     }
 }

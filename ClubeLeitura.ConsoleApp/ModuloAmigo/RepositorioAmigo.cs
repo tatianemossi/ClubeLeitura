@@ -3,26 +3,24 @@ using System;
 
 namespace ClubeLeitura.ConsoleApp.ModuloAmigo
 {
-    public class RepositorioAmigo : RepositorioBase<Amigo>
+    public class RepositorioAmigo : RepositorioBase
     {
-        public Amigo[] amigos;
-
-        public RepositorioAmigo(int quantidade) : base(quantidade)
+        public RepositorioAmigo(int qtdAmigos) : base(qtdAmigos)
         {
         }
 
-        #region Métodos Específicos da Classe
         public Amigo[] SelecionarAmigosComMulta()
         {
             Amigo[] amigosComMulta = new Amigo[ObterQtdAmigosComMulta()];
 
             int j = 0;
 
-            for (int i = 0; i < amigos.Length; i++)
+            for (int i = 0; i < registros.Length; i++)
             {
-                if (amigos[i] != null && amigos[i].TemMultaEmAberto())
+                Amigo a = (Amigo)registros[i];
+                if (registros[i] != null && a.TemMultaEmAberto())
                 {
-                    amigosComMulta[j] = amigos[i];
+                    amigosComMulta[j] = a;
                     j++;
                 }
             }
@@ -30,13 +28,16 @@ namespace ClubeLeitura.ConsoleApp.ModuloAmigo
             return amigosComMulta;
         }
 
-        public int ObterQtdAmigosComMulta()
+        #region Métodos privados
+        private int ObterQtdAmigosComMulta()
         {
             int numeroAmigos = 0;
 
-            for (int i = 0; i < amigos.Length; i++)
+            for (int i = 0; i < registros.Length; i++)
             {
-                if (amigos[i] != null && amigos[i].TemMultaEmAberto())
+                Amigo a = (Amigo)registros[i];
+
+                if (registros[i] != null && a.TemMultaEmAberto())
                     numeroAmigos++;
             }
 
