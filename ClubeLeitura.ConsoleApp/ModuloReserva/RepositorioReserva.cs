@@ -16,7 +16,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
 
             r.Abrir();
 
-            registros[ObterPosicaoVazia()] = reserva;
+            registros.Add(reserva);
 
             return "REGISTRO_VALIDO";
         }
@@ -45,7 +45,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloReserva
         {
             int numeroReservas = 0;
 
-            for (int i = 0; i < registros.Length; i++)
+            for (int i = 0; i < registros.Count; i++)
             {
                 Reserva r = (Reserva)registros[i];
 

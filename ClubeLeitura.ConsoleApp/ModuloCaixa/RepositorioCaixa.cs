@@ -13,7 +13,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
         {
             bool etiquetaJaUtilizada = false;
 
-            for (int i = 0; i < registros.Length; i++)
+            for (int i = 0; i < registros.Count; i++)
             {
                 Caixa c = (Caixa)registros[i];
 

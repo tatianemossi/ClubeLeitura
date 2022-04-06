@@ -18,7 +18,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
             e.revista.RegistrarEmprestimo(e);
             e.amigo.RegistrarEmprestimo(e);
 
-            registros[ObterPosicaoVazia()] = e;
+            registros.Add(e);
 
             return "REGISTRO_VALIDO";
         }
@@ -36,7 +36,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
 
             int j = 0;
 
-            for (int i = 0; i < registros.Length; i++)
+            for (int i = 0; i < registros.Count; i++)
             {
                 Emprestimo e = (Emprestimo)registros[i];
 
@@ -54,7 +54,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
         {
             int numeroEmprestimos = 0;
 
-            for (int i = 0; i < registros.Length; i++)
+            for (int i = 0; i < registros.Count; i++)
             {
                 Emprestimo e = (Emprestimo)registros[i];
 
