@@ -31,11 +31,7 @@ namespace ClubeLeitura.ConsoleApp.Compartilhado
         {
             Console.Clear();
 
-            Console.ForegroundColor = ConsoleColor.Magenta;
-
             Console.WriteLine(titulo);
-
-            Console.ResetColor();
 
             Console.WriteLine();
         }

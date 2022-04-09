@@ -6,10 +6,10 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 {
     public class TelaCadastroCategoria : TelaBase, ICadastroBasico
     {
-        private readonly RepositorioCategoria repositorioCategoria;
+        private readonly IRepositorio<Categoria> repositorioCategoria;
         private readonly Notificador notificador;
 
-        public TelaCadastroCategoria(RepositorioCategoria repositorioCategoria, Notificador notificador)
+        public TelaCadastroCategoria(IRepositorio<Categoria> repositorioCategoria, Notificador notificador)
             : base("Cadastro de Categorias de Revista")
         {
             this.repositorioCategoria = repositorioCategoria;
@@ -46,7 +46,10 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 
             Categoria categoriaAtualizada = ObterCategoria();
 
-            repositorioCategoria.Editar(numeroCategoria, categoriaAtualizada);
+            bool conseguiuEditar = repositorioCategoria.Editar(numeroCategoria, categoriaAtualizada);
+
+            if (!conseguiuEditar)
+                notificador.ApresentarMensagem("Não foi possível editar.", TipoMensagem.Erro);
 
             notificador.ApresentarMensagem("Categoria editada com sucesso", TipoMensagem.Sucesso);
         }
@@ -68,7 +71,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
 
             repositorioCategoria.Excluir(numeroCategoria);
 
-            notificador.ApresentarMensagem("Revista excluída com sucesso", TipoMensagem.Sucesso);
+            notificador.ApresentarMensagem("Categoria excluída com sucesso", TipoMensagem.Sucesso);
         }
 
         public bool VisualizarRegistros(string tipo)
@@ -76,7 +79,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCategoria
             if (tipo == "Tela")
                 MostrarTitulo("Visualização de Categorias");
 
-            List<EntidadeBase> categorias = repositorioCategoria.SelecionarTodos();
+            List<Categoria> categorias = repositorioCategoria.SelecionarTodos();
 
             if (categorias.Count == 0)
                 return false;

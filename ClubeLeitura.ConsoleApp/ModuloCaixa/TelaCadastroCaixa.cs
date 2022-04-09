@@ -7,9 +7,9 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
     public class TelaCadastroCaixa : TelaBase, ICadastroBasico
     {
         private readonly Notificador notificador;
-        private readonly RepositorioCaixa repositorioCaixa;
+        private readonly IRepositorio<Caixa> repositorioCaixa;
 
-        public TelaCadastroCaixa(RepositorioCaixa repositorioCaixa, Notificador notificador)
+        public TelaCadastroCaixa(IRepositorio<Caixa> repositorioCaixa, Notificador notificador)
             : base("Cadastro de Caixas")
         {
             this.repositorioCaixa = repositorioCaixa;
@@ -46,9 +46,12 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
 
             Caixa caixaAtualizada = ObterCaixa();
 
-            repositorioCaixa.Editar(numeroCaixa, caixaAtualizada);
+            bool conseguiuEditar = repositorioCaixa.Editar(numeroCaixa, caixaAtualizada);
 
-            notificador.ApresentarMensagem("Caixa editada com sucesso", TipoMensagem.Sucesso);
+            if (!conseguiuEditar)
+                notificador.ApresentarMensagem("Não foi possível editar.", TipoMensagem.Erro);
+            else
+                notificador.ApresentarMensagem("Caixa editada com sucesso", TipoMensagem.Sucesso);
         }
 
         public int ObterNumeroCaixa()
@@ -95,7 +98,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
             if (tipo == "Tela")
                 MostrarTitulo("Visualização de Caixas");
 
-            List<EntidadeBase> caixas = repositorioCaixa.SelecionarTodos();
+            List<Caixa> caixas = repositorioCaixa.SelecionarTodos();
 
             if (caixas.Count == 0)
                 return false;
@@ -110,6 +113,8 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
 
                 Console.WriteLine();
             }
+
+            Console.ReadLine();
 
             return true;
         }
@@ -126,7 +131,7 @@ namespace ClubeLeitura.ConsoleApp.ModuloCaixa
 
             do
             {
-                etiquetaJaUtilizada = repositorioCaixa.EtiquetaJaUtilizada(etiqueta);
+                etiquetaJaUtilizada = ((IEtiquetavel)repositorioCaixa).EtiquetaIndisponivel(etiqueta);
 
                 if (etiquetaJaUtilizada)
                 {

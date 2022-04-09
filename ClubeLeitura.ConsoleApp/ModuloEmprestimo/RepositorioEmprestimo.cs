@@ -1,24 +1,24 @@
 ﻿using ClubeLeitura.ConsoleApp.Compartilhado;
+using System.Collections.Generic;
 
 namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
 {
-    public class RepositorioEmprestimo : RepositorioBase
+    public class RepositorioEmprestimo : RepositorioBase<Emprestimo>, IRepositorio<Emprestimo>, ITransacaoRepositorio<Emprestimo>
     {
-        public RepositorioEmprestimo(int qtdEmprestimos) : base(qtdEmprestimos)
+        public RepositorioEmprestimo()
         {
         }
 
-        public override string Inserir(EntidadeBase emprestimo)
+        public override string Inserir(Emprestimo emprestimo)
         {
-            Emprestimo e = (Emprestimo)emprestimo;
-            e.numero = ++contadorNumero;
+            emprestimo.numero = ++contadorNumero;
 
-            e.Abrir();
+            emprestimo.Abrir();
 
-            e.revista.RegistrarEmprestimo(e);
-            e.amigo.RegistrarEmprestimo(e);
+            emprestimo.revista.RegistrarEmprestimo(emprestimo);
+            emprestimo.amigo.RegistrarEmprestimo(emprestimo);
 
-            registros.Add(e);
+            registros.Add(emprestimo);
 
             return "REGISTRO_VALIDO";
         }
@@ -30,39 +30,9 @@ namespace ClubeLeitura.ConsoleApp.ModuloEmprestimo
             return true;
         }
 
-        public Emprestimo[] SelecionarEmprestimosAbertos()
+        public List<Emprestimo> SelecionarTransacoesEmAberto()
         {
-            Emprestimo[] emprestimosAbertos = new Emprestimo[ObterQtdEmprestimosAbertos()];
-
-            int j = 0;
-
-            for (int i = 0; i < registros.Count; i++)
-            {
-                Emprestimo e = (Emprestimo)registros[i];
-
-                if (e != null && e.estaAberto)
-                {
-                    emprestimosAbertos[j] = e;
-                    j++;
-                }
-            }
-
-            return emprestimosAbertos;
-        }
-
-        public int ObterQtdEmprestimosAbertos()
-        {
-            int numeroEmprestimos = 0;
-
-            for (int i = 0; i < registros.Count; i++)
-            {
-                Emprestimo e = (Emprestimo)registros[i];
-
-                if (e != null && e.estaAberto)
-                    numeroEmprestimos++;
-            }
-
-            return numeroEmprestimos;
+            return registros.Procurar(x => x.EstaAberto);
         }
     }
 }
